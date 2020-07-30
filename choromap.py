@@ -105,6 +105,7 @@ class ChoroMap():
         self.delete_static_maps(png_output_path=png_output_path)
         self.make_static_maps(merged_df=merged_df, fig_size=fig_size, color=color, 
                               title=title, count=count, norm=norm, png_output_path=png_output_path)
+        self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
         if video:
             self.make_video(save_name=save_name)
@@ -187,6 +188,14 @@ class ChoroMap():
         """
         if not os.path.exists(png_output_path):
             os.makedirs(png_output_path)
+
+    def create_exports_directory(self):
+        """
+        Create the directory where exports (gifs, videos) will be saved 
+        if it doesn't exist already.
+        """
+        if not os.path.exists('charts/exports'):
+            os.makedirs('charts/exports')
         
     @staticmethod    
     def pretty_date(ugly_date):
