@@ -52,7 +52,7 @@ class ChoroMap():
         info_df = self.info_df
         
         temp_df = info_df[['location', 'date', column]]
-        temp_df = temp_df.pivot(index='location', columns='date', values=column)
+        temp_df = temp_df.pivot_table(index='location', columns='date', values=column)
         temp_df.interpolate(method='linear', limit_direction='forward', axis=1, inplace=True)
         if self.roll_avg:
             temp_df = temp_df.rolling(7, axis=1).mean()
