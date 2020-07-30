@@ -69,7 +69,7 @@ class ChoroMap():
         merged_df = map_df.join(temp_df, on='location')
         return merged_df
 
-    def choro_map(self, title, save_name, video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
+    def choro_map(self, title, save_name, labels=False, video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -103,7 +103,7 @@ class ChoroMap():
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
-        self.make_static_maps(merged_df=merged_df, fig_size=fig_size, color=color, 
+        self.make_static_maps(merged_df=merged_df, labels=labels, fig_size=fig_size, color=color, 
                               title=title, count=count, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
@@ -113,7 +113,7 @@ class ChoroMap():
         else:
             return self.display_gif(save_name=save_name)
         
-    def make_static_maps(self, merged_df, fig_size, title, color, count, norm, png_output_path):
+    def make_static_maps(self, merged_df, fig_size, title, labels, color, count, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
@@ -125,6 +125,8 @@ class ChoroMap():
                     linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "horizontal"})
+            if labels:
+                merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], ha='center', **{"fontsize": "small"}), axis=1)
             self.format_plot(ax=ax, date=date, title=title)
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
