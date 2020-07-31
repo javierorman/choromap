@@ -84,7 +84,7 @@ class ChoroMap():
                 If true, a video will be created. If left at default False, only a gif will be created and displayed.
             labels : bool
                 If true, the make_static_maps method will insert labels in -hopefully- safe regions of the map
-            lang : '
+            lang : language code for babel.format_date, passed to pretty_date method
             fig_size : tuple (height, width)
                 Size for the figure.
             color : passes to cmap option in Pandas plot function, which in turn uses Matplotlib Colormaps. 
