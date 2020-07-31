@@ -3,6 +3,7 @@ import geopandas as gpd
 
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
+from babel.dates import format_date
 
 import os
 
@@ -69,7 +70,7 @@ class ChoroMap():
         merged_df = map_df.join(temp_df, on='location')
         return merged_df
 
-    def choro_map(self, title, save_name, labels=False, video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
+    def choro_map(self, title, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -81,6 +82,9 @@ class ChoroMap():
                 Name to be used in exports (static map images, gifs, videos) and directory paths
             video : bool
                 If true, a video will be created. If left at default False, only a gif will be created and displayed.
+            labels : bool
+                If true, the make_static_maps method will insert labels in -hopefully- safe regions of the map
+            lang : '
             fig_size : tuple (height, width)
                 Size for the figure.
             color : passes to cmap option in Pandas plot function, which in turn uses Matplotlib Colormaps. 
@@ -103,7 +107,7 @@ class ChoroMap():
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
-        self.make_static_maps(merged_df=merged_df, labels=labels, fig_size=fig_size, color=color, 
+        self.make_static_maps(merged_df=merged_df, labels=labels, lang=lang, fig_size=fig_size, color=color, 
                               title=title, count=count, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
@@ -113,7 +117,7 @@ class ChoroMap():
         else:
             return self.display_gif(save_name=save_name)
         
-    def make_static_maps(self, merged_df, fig_size, title, labels, color, count, norm, png_output_path):
+    def make_static_maps(self, merged_df, fig_size, title, labels, lang, color, count, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
@@ -126,8 +130,9 @@ class ChoroMap():
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "horizontal"})
             if labels:
-                merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], ha='center', **{"fontsize": "small"}), axis=1)
-            self.format_plot(ax=ax, date=date, title=title)
+                merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
+                    ha='center', **{"fontsize": "small"}), axis=1)
+            self.format_plot(ax=ax, date=date, title=title, lang=lang)
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
             
@@ -146,7 +151,7 @@ class ChoroMap():
         vmin, vmax = 1, max_value
         return (fig, ax, cax, vmin, vmax)
 
-    def format_plot(self, ax, date, title):
+    def format_plot(self, ax, date, title, lang):
         """
         Format title, date and colorbar ticks.
         
@@ -158,7 +163,7 @@ class ChoroMap():
         ax.set_title(label=title, fontdict={'fontsize':15})
         ax.set_axis_off()
         
-        ax.annotate(self.pretty_date(date),
+        ax.annotate(self.pretty_date(date, lang),
                 xy=(0.15, .27), xycoords='figure fraction',
                 horizontalalignment='left', verticalalignment='top',
                 fontsize=12)
@@ -199,13 +204,18 @@ class ChoroMap():
         if not os.path.exists('charts/exports'):
             os.makedirs('charts/exports')
         
-    @staticmethod    
-    def pretty_date(ugly_date):
+    @staticmethod
+    def pretty_date(ugly_date, lang):
         """
         Converts a date from 'yyyy-mm-dd' to 'Month day, Year' to project on the map.
         Example: 02-01-2020 -> February 01, 2020
+        lang 
         """
-        return datetime.strptime(ugly_date, '%Y-%m-%d').strftime('%B %d, %Y')
+        ugly_datetime = datetime.strptime(ugly_date, '%Y-%m-%d')
+        pretty_date = format_date(ugly_datetime, format='long', locale=lang)
+        return pretty_date
+
+        # return datetime.strptime(ugly_date, '%Y-%m-%d').strftime('%B %d, %Y')
     
     def get_dates(self, merged_df, count):
         """
@@ -246,3 +256,6 @@ class ChoroMap():
         return HTML(f"""<video width='640' height='480' controls>
                 <source src='charts/exports/{save_name}.mp4'>
                 Your browser does not support the video tag.</video>""")
+
+
+# %%
