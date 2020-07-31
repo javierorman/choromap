@@ -29,46 +29,13 @@ class ChoroMap():
         map_df : pd.DataFrame
             the dataframe containing geometrical information for building maps
         
-        roll_avg : bool, optional
-            indicates whether or not to apply a rolling average 
-            to smooth out highly variable data
+        
     """
     
-    def __init__(self, column, info_df, map_df, roll_avg=False):
+    def __init__(self, column, info_df, map_df):
         self.column = column
         self.info_df = info_df
         self.map_df = map_df
-        self.roll_avg = roll_avg
-
-    def prep_info_df(self):
-        """
-        Prepares info_df for processing:
-            1. Focus on relevant information: 'location', 'date' and the column to be tracked
-            2. Pivot table so locations are indexes and dates are now columns
-            3. Interpolate values so there are no gaps
-            4. (Optional) Roll averages with 7-day windows to smooth out highly unstable values
-            5. Fill NaN with 0: applies to eariler dates since we used interpolation already.
-        """        
-        column = self.column
-        info_df = self.info_df
-        
-        temp_df = info_df[['location', 'date', column]]
-        temp_df = temp_df.pivot_table(index='location', columns='date', values=column)
-        temp_df.interpolate(method='linear', limit_direction='forward', axis=1, inplace=True)
-        if self.roll_avg:
-            temp_df = temp_df.rolling(7, axis=1).mean()
-        temp_df.fillna(0, inplace=True)
-        return temp_df
-        
-    def merge(self, temp_df):
-        """
-        Merges temp_df as returned by prep_info_df with map_df.
-        Returns a dataframe with geographical information and relevant data to be tracked,
-        indexed by location.
-        """
-        map_df = self.map_df
-        merged_df = map_df.join(temp_df, on='location')
-        return merged_df
 
     def choro_map(self, title, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
         """
@@ -101,8 +68,7 @@ class ChoroMap():
                 Frames per second - passed to make_gif method,
                 then as an argument to gifski
         """        
-        temp_df = self.prep_info_df()
-        merged_df = self.merge(temp_df=temp_df)
+        merged_df = self.merge()
 
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
@@ -117,6 +83,17 @@ class ChoroMap():
         else:
             return self.display_gif(save_name=save_name)
         
+    def merge(self):
+        """
+        Merges info_df with map_df.
+        Returns a dataframe with geographical information and relevant data to be tracked,
+        indexed by location.
+        """
+        info_df = self.info_df
+        map_df = self.map_df
+        merged_df = map_df.join(info_df, on='location')
+        return merged_df
+
     def make_static_maps(self, merged_df, fig_size, title, labels, lang, color, count, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
@@ -131,7 +108,7 @@ class ChoroMap():
                     legend_kwds={'orientation': "horizontal"})
             if labels:
                 merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
-                    ha='center', **{"fontsize": "small"}), axis=1)
+                    **{"fontsize": "x-small", "ha": "center", "va": "top"}), axis=1)
             self.format_plot(fig=fig, ax=ax, date=date, title=title, lang=lang)
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
@@ -161,7 +138,7 @@ class ChoroMap():
             date : date from the iterable in make_static_maps
             title : entered by user when calling choro_map method
         """
-        fig.suptitle(t=title, fontsize=15)
+        fig.suptitle(t=title, fontsize=15, weight='bold')
         # ax.set_title(label=title, fontdict={'fontsize':15})
         
         ax.set_axis_off()
@@ -174,7 +151,7 @@ class ChoroMap():
 
         cb = ax.get_figure().get_axes()[1]
         cb.xaxis.set_major_formatter(ScalarFormatter())
-        cb.xaxis.set_major_locator(MaxNLocator(prune='lower'))
+        # cb.xaxis.set_major_locator(MaxNLocator(prune='lower'))
 
         # cb_ticks = cb.get_xticklabels()
         # cb_ticks[0] = ''
