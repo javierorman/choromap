@@ -12,7 +12,7 @@ from moviepy.editor import *
 
 import matplotlib.pyplot as plt
 from matplotlib import colors
-from matplotlib.ticker import ScalarFormatter
+from matplotlib.ticker import ScalarFormatter, MaxNLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 class ChoroMap():
@@ -132,7 +132,7 @@ class ChoroMap():
             if labels:
                 merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
                     ha='center', **{"fontsize": "small"}), axis=1)
-            self.format_plot(ax=ax, date=date, title=title, lang=lang)
+            self.format_plot(fig=fig, ax=ax, date=date, title=title, lang=lang)
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
             
@@ -151,25 +151,34 @@ class ChoroMap():
         vmin, vmax = 1, max_value
         return (fig, ax, cax, vmin, vmax)
 
-    def format_plot(self, ax, date, title, lang):
+    def format_plot(self, fig, ax, date, title, lang):
         """
         Format title, date and colorbar ticks.
         
         Arguments:
-            ax : axis plotted in make_static_maps
+            fig : fig created in build_figure
+            ax : axis created in build_figure, plotted in make_static_maps
             date : date from the iterable in make_static_maps
             title : entered by user when calling choro_map method
         """
-        ax.set_title(label=title, fontdict={'fontsize':15})
-        ax.set_axis_off()
+        fig.suptitle(t=title, fontsize=15)
+        # ax.set_title(label=title, fontdict={'fontsize':15})
         
-        ax.annotate(self.pretty_date(date, lang),
-                xy=(0.15, .27), xycoords='figure fraction',
-                horizontalalignment='left', verticalalignment='top',
-                fontsize=12)
+        ax.set_axis_off()
 
-        colorbar = ax.get_figure().get_axes()[1]
-        colorbar.xaxis.set_major_formatter(ScalarFormatter())
+        ax.set_title(label=self.pretty_date(date, lang), fontdict={'fontsize': 12})
+        # ax.annotate(self.pretty_date(date, lang),
+        #         xy=(0.15, .27), xycoords='figure fraction',
+        #         horizontalalignment='left', verticalalignment='top',
+        #         fontsize=12)
+
+        cb = ax.get_figure().get_axes()[1]
+        cb.xaxis.set_major_formatter(ScalarFormatter())
+        cb.xaxis.set_major_locator(MaxNLocator(prune='lower'))
+
+        # cb_ticks = cb.get_xticklabels()
+        # cb_ticks[0] = ''
+        # cb.set_xticklabels(cb_ticks)
     
     def save_and_clear_fig(self, ax, date, png_output_path):
         """
