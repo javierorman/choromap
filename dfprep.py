@@ -21,6 +21,12 @@ def prep_info_df(info_df, column, roll_avg=False):
     temp_df.fillna(0, inplace=True)
     return temp_df
 
+def prep_geom_df(geom_df, location_col, geometry_col):
+    clean_geom_df = geom_df.rename(columns={location_col: 'location'})
+    clean_geom_df = clean_geom_df[['location', geometry_col]]
+    clean_geom_df.set_index('location', inplace=True)
+    return clean_geom_df
+
 
 def prep_uru_info_df(info_df, column, roll_avg=True):
     clean_info_df = info_df.groupby(['Indicador']).get_group(column)

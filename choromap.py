@@ -101,7 +101,7 @@ class ChoroMap():
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
         """
-        fig, ax, cax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size)
+        fig, ax, cax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count)
         for date in list_of_dates:
             ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=0.7,
@@ -118,7 +118,7 @@ class ChoroMap():
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
             
-    def build_figure(self, merged_df, fig_size):
+    def build_figure(self, merged_df, fig_size, norm):
         """
         Builds the figure to be used in all maps. The figure includes a main axis (ax) that will contain the maps
         and a secondary axis containing the colorbar (cax).
@@ -131,8 +131,11 @@ class ChoroMap():
 
         plt.rcParams['savefig.facecolor'] = '#d4f6ff'
 
-        max_value = merged_df.iloc[:, 1:].max().max()
-        vmin, vmax = 1, max_value
+        vmax = merged_df.iloc[:, 1:].max().max()
+        if norm == colors.LogNorm:
+            vmin = 1
+        else:
+            vmin = 0
         return (fig, ax, cax, vmin, vmax)
 
     def format_plot(self, fig, ax, date, title, lang):
@@ -152,12 +155,12 @@ class ChoroMap():
         # ax.set_facecolor('#eafff5')
 
         cb = ax.get_figure().get_axes()[1]
+        ###
+        # Possibly include LogFormatter() and LogLocator() in case of LogNorm
+        # https://matplotlib.org/3.3.0/api/ticker_api.html
+        ###
         cb.xaxis.set_major_formatter(ScalarFormatter())
-        # cb.xaxis.set_major_locator(MaxNLocator(prune='lower'))
-
-        # cb_ticks = cb.get_xticklabels()
-        # cb_ticks[0] = ''
-        # cb.set_xticklabels(cb_ticks)
+        cb.xaxis.set_major_locator(MaxNLocator())
     
     def save_and_clear_fig(self, ax, date, png_output_path):
         """
