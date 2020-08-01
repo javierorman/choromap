@@ -15,6 +15,8 @@ from matplotlib import colors
 from matplotlib.ticker import ScalarFormatter, MaxNLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
+import contextily as ctx
+
 class ChoroMap():
     """ 
     A class for building animated choropleth maps. 
@@ -102,13 +104,16 @@ class ChoroMap():
         fig, ax, cax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count)
         for date in list_of_dates:
-            ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, 
+            ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=0.7,
                     linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "horizontal"})
             if labels:
                 merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
                     **{"fontsize": "x-small", "ha": "center", "va": "top"}), axis=1)
+            
+            # ctx.add_basemap(
+            #     ax=ax, source=ctx.providers.OpenStreetMap.Mapnik)
             self.format_plot(fig=fig, ax=ax, date=date, title=title, lang=lang)
             self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
         plt.close()
@@ -124,6 +129,8 @@ class ChoroMap():
         divider = make_axes_locatable(ax)
         cax = divider.append_axes("bottom", size="5%", pad=0.1)
 
+        plt.rcParams['savefig.facecolor'] = '#d4f6ff'
+
         max_value = merged_df.iloc[:, 1:].max().max()
         vmin, vmax = 1, max_value
         return (fig, ax, cax, vmin, vmax)
@@ -138,16 +145,11 @@ class ChoroMap():
             date : date from the iterable in make_static_maps
             title : entered by user when calling choro_map method
         """
-        fig.suptitle(t=title, fontsize=15, weight='bold')
-        # ax.set_title(label=title, fontdict={'fontsize':15})
+        fig.suptitle(t=title, fontsize=15, weight='bold')        
         
         ax.set_axis_off()
-
         ax.set_title(label=self.pretty_date(date, lang), fontdict={'fontsize': 12})
-        # ax.annotate(self.pretty_date(date, lang),
-        #         xy=(0.15, .27), xycoords='figure fraction',
-        #         horizontalalignment='left', verticalalignment='top',
-        #         fontsize=12)
+        # ax.set_facecolor('#eafff5')
 
         cb = ax.get_figure().get_axes()[1]
         cb.xaxis.set_major_formatter(ScalarFormatter())
@@ -169,6 +171,7 @@ class ChoroMap():
         filepath = os.path.join(png_output_path, date+'.png')
         chart = ax.get_figure()
         chart.savefig(filepath, dpi=100)
+        # plt.savefig(filepath, dpi=100)
         ax.clear()
             
     def delete_static_maps(self, png_output_path):
@@ -243,5 +246,3 @@ class ChoroMap():
                 <source src='charts/exports/{save_name}.mp4'>
                 Your browser does not support the video tag.</video>""")
 
-
-# %%
