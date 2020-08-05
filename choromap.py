@@ -1,6 +1,8 @@
 import pandas as pd
 import geopandas as gpd
 
+import numpy as np
+
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
 from babel.dates import format_date
@@ -12,6 +14,7 @@ from moviepy.editor import *
 
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from matplotlib import cm
 from matplotlib.ticker import ScalarFormatter, MaxNLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -39,7 +42,7 @@ class ChoroMap():
         self.info_df = info_df
         self.map_df = map_df
 
-    def choro_map(self, title, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
+    def choro_map(self, title, unit, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -75,8 +78,8 @@ class ChoroMap():
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
-        self.make_static_maps(merged_df=merged_df, labels=labels, lang=lang, fig_size=fig_size, color=color, 
-                              title=title, count=count, norm=norm, png_output_path=png_output_path)
+        self.make_static_maps(merged_df=merged_df, title=title, unit=unit, labels=labels, lang=lang, 
+                                fig_size=fig_size, color=color, count=count, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
         if video:
@@ -96,26 +99,35 @@ class ChoroMap():
         merged_df = map_df.join(info_df, on='location')
         return merged_df
 
-    def make_static_maps(self, merged_df, fig_size, title, labels, lang, color, count, norm, png_output_path):
+    def make_static_maps(self, merged_df, title, unit, labels, lang, fig_size, color, count, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
         """
-        fig, ax, cax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
+        fig, ax, cax, tax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count)
+        
+        # OrRd_clrs = cm.get_cmap('OrRd', 256)
+        # w_OrRd_clrs = OrRd_clrs(np.linspace(0, 1, 256))
+        # white = np.array([256/256, 256/256, 256/256, 1])
+        # w_OrRd_clrs[:1, :] = white
+        # w_OrRd = colors.ListedColormap(w_OrRd_clrs)
+        
         for date in list_of_dates:
             ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=0.7,
                     linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
-                    legend_kwds={'orientation': "horizontal"})
+                    legend_kwds={'orientation': "vertical"})
+            # fig.delaxes(fig.get_axes()[1])
             if labels:
                 merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
                     **{"fontsize": "x-small", "ha": "center", "va": "top"}), axis=1)
-            
             # ctx.add_basemap(
             #     ax=ax, source=ctx.providers.OpenStreetMap.Mapnik)
-            self.format_plot(fig=fig, ax=ax, date=date, title=title, lang=lang)
-            self.save_and_clear_fig(ax=ax, date=date, png_output_path=png_output_path)
+            
+            self.make_timeline(tax=tax, list_of_dates=list_of_dates, date=date, lang=lang)
+            self.format_plot(fig=fig, ax=ax, cax=cax, date=date, title=title, unit=unit, lang=lang)
+            self.save_and_clear_fig(ax=ax, tax=tax, date=date, png_output_path=png_output_path)
         plt.close()
             
     def build_figure(self, merged_df, fig_size, norm):
@@ -127,7 +139,9 @@ class ChoroMap():
         """
         fig, ax = plt.subplots(1, 1, figsize=fig_size)
         divider = make_axes_locatable(ax)
-        cax = divider.append_axes("bottom", size="5%", pad=0.1)
+        
+        cax = divider.append_axes("right", size="5%", pad=0.3)
+        tax = divider.append_axes("bottom", size="1%", pad=0.3)
 
         plt.rcParams['savefig.facecolor'] = '#d4f6ff'
 
@@ -136,9 +150,11 @@ class ChoroMap():
             vmin = 1
         else:
             vmin = 0
-        return (fig, ax, cax, vmin, vmax)
 
-    def format_plot(self, fig, ax, date, title, lang):
+
+        return (fig, ax, cax, tax, vmin, vmax)
+
+    def format_plot(self, fig, ax, cax, date, title, unit, lang):
         """
         Format title, date and colorbar ticks.
         
@@ -147,22 +163,30 @@ class ChoroMap():
             ax : axis created in build_figure, plotted in make_static_maps
             date : date from the iterable in make_static_maps
             title : entered by user when calling choro_map method
-        """
-        fig.suptitle(t=title, fontsize=15, weight='bold')        
-        
+        """        
+        ax.set_title(title, fontsize=15, weight='bold')        
         ax.set_axis_off()
-        ax.set_title(label=self.pretty_date(date, lang), fontdict={'fontsize': 12})
-        # ax.set_facecolor('#eafff5')
+        ax.text(0, 0, self.pretty_date(date, lang), fontdict={
+                'fontsize': 12}, transform=ax.transAxes)
 
-        cb = ax.get_figure().get_axes()[1]
-        ###
-        # Possibly include LogFormatter() and LogLocator() in case of LogNorm
-        # https://matplotlib.org/3.3.0/api/ticker_api.html
-        ###
-        cb.xaxis.set_major_formatter(ScalarFormatter())
-        cb.xaxis.set_major_locator(MaxNLocator())
+        # cb = ax.get_figure().get_axes()[1]
+        # ###
+        # # Possibly include LogFormatter() and LogLocator() in case of LogNorm
+        # # https://matplotlib.org/3.3.0/api/ticker_api.html
+        # ###
+        cax.yaxis.set_major_formatter(ScalarFormatter())
+        cax.yaxis.set_major_locator(MaxNLocator())
+        cax.set_ylabel(unit)
+        cax.yaxis.set_label_position('left')
     
-    def save_and_clear_fig(self, ax, date, png_output_path):
+    def make_timeline(self, tax, list_of_dates, date, lang):
+        tax.barh(1, (list_of_dates.index(date)+1)/len(list_of_dates), color='Blue', alpha=0.5)
+        tax.yaxis.set_visible(False)
+        
+        lim_date = lambda x: self.pretty_date(list_of_dates[x], lang=lang, format='medium')
+        tax.set_xlim(lim_date(0), lim_date(-1))
+
+    def save_and_clear_fig(self, ax, tax, date, png_output_path):
         """
         Save static figure, then clear ax to avoid memory over-use.
         
@@ -172,10 +196,11 @@ class ChoroMap():
             png_output_path : str passed from self.choro_map()
         """
         filepath = os.path.join(png_output_path, date+'.png')
-        chart = ax.get_figure()
-        chart.savefig(filepath, dpi=100)
-        # plt.savefig(filepath, dpi=100)
+        # chart = ax.get_figure()
+        # chart.savefig(filepath, dpi=100)
+        plt.savefig(filepath, dpi=100)
         ax.clear()
+        tax.clear()
             
     def delete_static_maps(self, png_output_path):
         os.system(f'rm ./{png_output_path}/*')
@@ -197,14 +222,14 @@ class ChoroMap():
             os.makedirs('charts/exports')
         
     @staticmethod
-    def pretty_date(ugly_date, lang):
+    def pretty_date(ugly_date, lang, format='long'):
         """
         Converts a date from 'yyyy-mm-dd' to 'Month day, Year' to project on the map.
         Example: 02-01-2020 -> February 01, 2020
         lang 
         """
         ugly_datetime = datetime.strptime(ugly_date, '%Y-%m-%d')
-        pretty_date = format_date(ugly_datetime, format='long', locale=lang)
+        pretty_date = format_date(ugly_datetime, format=format, locale=lang)
         return pretty_date
 
         # return datetime.strptime(ugly_date, '%Y-%m-%d').strftime('%B %d, %Y')
