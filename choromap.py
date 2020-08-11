@@ -13,6 +13,7 @@ from IPython.display import Image, Video, HTML, IFrame, display
 from moviepy.editor import *
 
 import matplotlib.pyplot as plt
+from matplotlib import rcParams
 from matplotlib import colors
 from matplotlib import cm
 from matplotlib.ticker import ScalarFormatter, MaxNLocator
@@ -42,7 +43,7 @@ class ChoroMap():
         self.info_df = info_df
         self.map_df = map_df
 
-    def choro_map(self, title, unit, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.LogNorm, fps=8):
+    def choro_map(self, title, unit, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.Normalize, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -106,15 +107,15 @@ class ChoroMap():
         """
         fig, ax, cax, tax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count)
-        
+
         # OrRd_clrs = cm.get_cmap('OrRd', 256)
         # w_OrRd_clrs = OrRd_clrs(np.linspace(0, 1, 256))
         # white = np.array([256/256, 256/256, 256/256, 1])
         # w_OrRd_clrs[:1, :] = white
         # w_OrRd = colors.ListedColormap(w_OrRd_clrs)
-        
+
         for date in list_of_dates:
-            ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=0.7,
+            ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=1,
                     linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "vertical"})
@@ -137,13 +138,14 @@ class ChoroMap():
         It also sets the minimum and maximum values for the graph. 
         It finds the maximum value by looking at the whole table except the 'geometry' column.
         """
+        plt.style.use('ggplot')
+        
         fig, ax = plt.subplots(1, 1, figsize=fig_size)
         divider = make_axes_locatable(ax)
         
-        cax = divider.append_axes("right", size="5%", pad=0.3)
+        cax = fig.add_axes([0.7, 0.25, 0.01, 0.5])
+        # cax = divider.append_axes("right", size="5%", pad=0.3)
         tax = divider.append_axes("bottom", size="1%", pad=0.3)
-
-        plt.rcParams['savefig.facecolor'] = '#d4f6ff'
 
         vmax = merged_df.iloc[:, 1:].max().max()
         if norm == colors.LogNorm:
@@ -164,6 +166,18 @@ class ChoroMap():
             date : date from the iterable in make_static_maps
             title : entered by user when calling choro_map method
         """        
+
+        # light_blue = '#d4f6ff'
+        # dark_blue = '#132157'
+        # plt.rcParams['savefig.facecolor'] = dark_blue
+
+        # COLOR = 'white'
+        # rcParams['text.color'] = COLOR
+        # rcParams['axes.titlecolor'] = COLOR
+        # rcParams['axes.labelcolor'] = COLOR
+        # rcParams['xtick.color'] = COLOR
+        # rcParams['ytick.color'] = COLOR
+
         ax.set_title(title, fontsize=15, weight='bold')        
         ax.set_axis_off()
         ax.text(0, 0, self.pretty_date(date, lang), fontdict={
@@ -196,8 +210,7 @@ class ChoroMap():
             png_output_path : str passed from self.choro_map()
         """
         filepath = os.path.join(png_output_path, date+'.png')
-        # chart = ax.get_figure()
-        # chart.savefig(filepath, dpi=100)
+
         plt.savefig(filepath, dpi=100)
         ax.clear()
         tax.clear()
