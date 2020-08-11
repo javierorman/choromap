@@ -43,7 +43,7 @@ class ChoroMap():
         self.info_df = info_df
         self.map_df = map_df
 
-    def choro_map(self, title, unit, save_name, labels=False, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.Normalize, fps=8):
+    def choro_map(self, title, subtitle, unit, save_name, labels=True, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.Normalize, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -79,7 +79,7 @@ class ChoroMap():
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
-        self.make_static_maps(merged_df=merged_df, title=title, unit=unit, labels=labels, lang=lang, 
+        self.make_static_maps(merged_df=merged_df, title=title, subtitle=subtitle, unit=unit, labels=labels, lang=lang, 
                                 fig_size=fig_size, color=color, count=count, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
@@ -100,7 +100,7 @@ class ChoroMap():
         merged_df = map_df.join(info_df, on='location')
         return merged_df
 
-    def make_static_maps(self, merged_df, title, unit, labels, lang, fig_size, color, count, norm, png_output_path):
+    def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
@@ -127,7 +127,7 @@ class ChoroMap():
             #     ax=ax, source=ctx.providers.OpenStreetMap.Mapnik)
             
             self.make_timeline(tax=tax, list_of_dates=list_of_dates, date=date, lang=lang)
-            self.format_plot(fig=fig, ax=ax, cax=cax, date=date, title=title, unit=unit, lang=lang)
+            self.format_plot(fig=fig, ax=ax, cax=cax, date=date, title=title, subtitle=subtitle, unit=unit, lang=lang)
             self.save_and_clear_fig(ax=ax, tax=tax, date=date, png_output_path=png_output_path)
         plt.close()
             
@@ -141,12 +141,16 @@ class ChoroMap():
         plt.style.use('ggplot')
         
         fig, ax = plt.subplots(1, 1, figsize=fig_size)
-        divider = make_axes_locatable(ax)
-        
-        cax = fig.add_axes([0.7, 0.25, 0.01, 0.5])
-        # cax = divider.append_axes("right", size="5%", pad=0.3)
-        tax = divider.append_axes("bottom", size="1%", pad=0.3)
 
+        divider = make_axes_locatable(ax)
+        tax = divider.append_axes("bottom", size="1%", pad=0.3)
+        # tax = fig.add_axes([0.4, 0.12, 0.3, 0.01])
+
+        # cax = divider.append_axes("right", size="3%", pad=0.3)
+        cax = fig.add_axes([0.8, 0.25, 0.01, 0.5])
+        
+        
+        
         vmax = merged_df.iloc[:, 1:].max().max()
         if norm == colors.LogNorm:
             vmin = 1
@@ -156,7 +160,7 @@ class ChoroMap():
 
         return (fig, ax, cax, tax, vmin, vmax)
 
-    def format_plot(self, fig, ax, cax, date, title, unit, lang):
+    def format_plot(self, fig, ax, cax, date, title, subtitle, unit, lang):
         """
         Format title, date and colorbar ticks.
         
@@ -177,8 +181,8 @@ class ChoroMap():
         # rcParams['axes.labelcolor'] = COLOR
         # rcParams['xtick.color'] = COLOR
         # rcParams['ytick.color'] = COLOR
-
-        ax.set_title(title, fontsize=15, weight='bold')        
+        fig.suptitle(title, fontsize=15, weight='bold')
+        ax.set_title(subtitle, fontsize=12)        
         ax.set_axis_off()
         ax.text(0, 0, self.pretty_date(date, lang), fontdict={
                 'fontsize': 12}, transform=ax.transAxes)
