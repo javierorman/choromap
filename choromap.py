@@ -115,6 +115,7 @@ class ChoroMap():
         # w_OrRd = colors.ListedColormap(w_OrRd_clrs)
 
         for date in list_of_dates:
+            # https://geopandas.org/reference.html#geopandas.GeoDataFrame.plot
             ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=1,
                     linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
