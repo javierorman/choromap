@@ -21,7 +21,7 @@ def prep_info_df(info_df, category, col_dates, col_location, col_categories=None
 
     temp_df = temp_df[['location', 'date', category]]
     temp_df = temp_df.pivot_table(
-        index='location', columns='date', values=category)
+        index='location', columns='date', values=category, dropna=False)
     temp_df.interpolate(
         method='linear', limit_direction='forward', axis=1, inplace=True)
 
@@ -43,6 +43,14 @@ def prep_geom_df(geom_df, location_col, geometry_col):
     clean_geom_df.set_index('location', inplace=True)
     return clean_geom_df
 
+def merge_info_geom_df(info_df, geom_df):
+    """
+    Merges info_df with geom_df.
+    Returns a dataframe with geographical information and relevant data to be tracked,
+    indexed by location.
+    """
+    merged_df = geom_df.merge(info_df, on='location', how='left')
+    return merged_df
 
 # def prep_uru_info_df(info_df, column, roll_avg=True):
 #     clean_info_df = info_df.groupby(['Indicador']).get_group(column)

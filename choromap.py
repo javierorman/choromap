@@ -37,13 +37,12 @@ class ChoroMap():
         
         
     """
-    
-    def __init__(self, column, info_df, map_df):
-        self.column = column
-        self.info_df = info_df
-        self.map_df = map_df
+    def __init__(self, merged_df):
+        self.merged_df = merged_df
 
-    def choro_map(self, title, subtitle, unit, save_name, labels=True, lang='en', video=True, fig_size=(16,8), color='OrRd', count='all', norm=colors.Normalize, fps=8):
+    def choro_map(self, title, subtitle, unit, save_name, 
+                    labels=True, lang='en', video=True, fig_size=(16,8), 
+                    color='OrRd', count='all', norm=colors.Normalize, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -74,12 +73,10 @@ class ChoroMap():
                 Frames per second - passed to make_gif method,
                 then as an argument to gifski
         """        
-        merged_df = self.merge()
-
         png_output_path = f'charts/maps/{save_name}'
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
-        self.make_static_maps(merged_df=merged_df, title=title, subtitle=subtitle, unit=unit, labels=labels, lang=lang, 
+        self.make_static_maps(merged_df=self.merged_df, title=title, subtitle=subtitle, unit=unit, labels=labels, lang=lang, 
                                 fig_size=fig_size, color=color, count=count, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
@@ -88,17 +85,6 @@ class ChoroMap():
             return self.display_video(save_name=save_name)
         else:
             return self.display_gif(save_name=save_name)
-        
-    def merge(self):
-        """
-        Merges info_df with map_df.
-        Returns a dataframe with geographical information and relevant data to be tracked,
-        indexed by location.
-        """
-        info_df = self.info_df
-        map_df = self.map_df
-        merged_df = map_df.join(info_df, on='location')
-        return merged_df
 
     def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, norm, png_output_path):
         """
