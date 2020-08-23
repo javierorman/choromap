@@ -42,7 +42,7 @@ class ChoroMap():
 
     def choro_map(self, title, subtitle, unit, save_name, 
                     labels=True, lang='en', video=True, fig_size=(16,8), 
-                    color='OrRd', count='all', norm=colors.Normalize, fps=8):
+                    color='OrRd', count='all', begin_date=None, norm=colors.Normalize, fps=8):
         """
         Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
@@ -77,7 +77,7 @@ class ChoroMap():
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
         self.make_static_maps(merged_df=self.merged_df, title=title, subtitle=subtitle, unit=unit, labels=labels, lang=lang, 
-                                fig_size=fig_size, color=color, count=count, norm=norm, png_output_path=png_output_path)
+                                fig_size=fig_size, color=color, count=count, begin_date=begin_date, norm=norm, png_output_path=png_output_path)
         self.create_exports_directory()
         self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
         if video:
@@ -86,13 +86,13 @@ class ChoroMap():
         else:
             return self.display_gif(save_name=save_name)
 
-    def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, norm, png_output_path):
+    def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, begin_date, norm, png_output_path):
         """
         Called by choro_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
         """
         fig, ax, cax, tax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
-        list_of_dates = self.get_dates(merged_df=merged_df, count=count)
+        list_of_dates = self.get_dates(merged_df=merged_df, count=count, begin_date=begin_date)
 
         # OrRd_clrs = cm.get_cmap('OrRd', 256)
         # w_OrRd_clrs = OrRd_clrs(np.linspace(0, 1, 256))
@@ -102,8 +102,9 @@ class ChoroMap():
 
         for date in list_of_dates:
             # https://geopandas.org/reference.html#geopandas.GeoDataFrame.plot
+            # old: linewidth=0.2 edgecolor='0.8'
             ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=1,
-                    linewidth=0.2, edgecolor='0.8', vmin=vmin, vmax=vmax, 
+                    linewidth=1.5, edgecolor='white', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "vertical"})
             # fig.delaxes(fig.get_axes()[1])
@@ -134,7 +135,7 @@ class ChoroMap():
         # tax = fig.add_axes([0.4, 0.12, 0.3, 0.01])
 
         # cax = divider.append_axes("right", size="3%", pad=0.3)
-        cax = fig.add_axes([0.8, 0.25, 0.01, 0.5])
+        cax = fig.add_axes([0.85, 0.25, 0.01, 0.5])
         
         
         
@@ -238,7 +239,7 @@ class ChoroMap():
 
         # return datetime.strptime(ugly_date, '%Y-%m-%d').strftime('%B %d, %Y')
     
-    def get_dates(self, merged_df, count):
+    def get_dates(self, merged_df, count, begin_date):
         """
         A function to get a list of dates to process for the map.
             Parameters:
@@ -247,7 +248,10 @@ class ChoroMap():
             Returns:
                 list_of_dates: list
         """
-        begin_date = date.fromisoformat(merged_df.columns.min())
+        if begin_date is None:
+            begin_date = merged_df.columns.min()
+        
+        begin_date = date.fromisoformat(begin_date)
 
         most_recent_date = date.fromisoformat(merged_df.columns[-1])
         day = timedelta(days=1)
