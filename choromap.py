@@ -128,7 +128,7 @@ class ChoroMap():
         """
         plt.style.use('ggplot')
         
-        fig, ax = plt.subplots(1, 1, figsize=fig_size)
+        fig, ax = plt.subplots(1, 1, figsize=fig_size, dpi=200)
 
         divider = make_axes_locatable(ax)
         tax = divider.append_axes("bottom", size="1%", pad=0.3)
@@ -203,7 +203,7 @@ class ChoroMap():
         """
         filepath = os.path.join(png_output_path, date+'.png')
 
-        plt.savefig(filepath, dpi=100)
+        plt.savefig(filepath)
         ax.clear()
         tax.clear()
             
