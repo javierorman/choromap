@@ -1,0 +1,5 @@
+charts/maps
+.ipynb_checkpoints
+__pycache__/
+COVID19_Uruguay.code-workspace
+.DS_Store
