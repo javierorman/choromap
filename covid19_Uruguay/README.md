@@ -1,0 +1,1 @@
+Render HTML del notebook: https://htmlpreview.github.io/?https://github.com/javierorman/choromap/blob/master/covid19_Uruguay/covid19_uruguay.html
