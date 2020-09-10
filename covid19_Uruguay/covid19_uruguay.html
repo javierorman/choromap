@@ -14243,7 +14243,7 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><strong><em>Javier Orman</em></strong></p>
-<p>(Última actualización: 3/9/2020)</p>
+<p>(Última actualización: 10/9/2020)</p>
 
 </div>
 </div>
@@ -14255,7 +14255,7 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>El virus COVID-19, llamado así por sus siglas en inglés (Coronavirus Disease 2019), ha afectado a todos los países del mundo y Uruguay no es excepción. El virus ha afectado a cada departamento de forma desigual y las visualizaciones de datos pueden ayudar a observar este proceso de forma intuitiva.</p>
-<p>En este notebook, a partir de los datos publicados por el Sistema Nacional de Emergencias de Uruguay y disponibles en el <a href="https://catalogodatos.gub.uy/">catálogo de datos abiertos</a>, se utiliza la herramienta "choromap" (repositorio en GitHub aquí) para construir mapas animados que visibilicen la evolución de la distribución territorial de los casos detectados.</p>
+<p>En este notebook, a partir de los datos publicados por el Sistema Nacional de Emergencias de Uruguay y disponibles en el <a href="https://catalogodatos.gub.uy/">catálogo de datos abiertos</a>, se utiliza la herramienta "choromap" (repositorio en GitHub <a href="https://github.com/javierorman/choromap">aquí</a>) para construir mapas animados que visibilicen la evolución de la distribución territorial de los casos detectados.</p>
 
 </div>
 </div>
@@ -14321,7 +14321,7 @@ Geopandas va a permitir trabajar con datos geoespaciales y las visualizaciones v
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Importamos la clase ChoroMap y varias funciones (desde choromap.dfprep) para preparar los datos necesarios.</p>
+<p>Importamos la clase <em>ChoroMapBuilder</em> y <em>DataFramePrepper</em> del módulo <em>choromap</em>.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14330,9 +14330,7 @@ Geopandas va a permitir trabajar con datos geoespaciales y las visualizaciones v
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">choromap.choromap</span> <span class="kn">import</span> <span class="n">ChoroMap</span>
-<span class="kn">from</span> <span class="nn">choromap.dfprep</span> <span class="kn">import</span> <span class="n">prep_info_df</span><span class="p">,</span> <span class="n">prep_geom_df</span>
-<span class="kn">from</span> <span class="nn">choromap.dfprep</span> <span class="kn">import</span> <span class="n">merge_info_geom</span> <span class="k">as</span> <span class="n">merge</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">choromap.choromap</span> <span class="kn">import</span> <span class="n">ChoroMapBuilder</span><span class="p">,</span> <span class="n">DataFramePrepper</span>
 </pre></div>
 
      </div>
@@ -14662,12 +14660,6 @@ memory usage: 266.0+ KB
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="http://www.ine.gub.uy/censos-1852-2011">http://www.ine.gub.uy/censos-1852-2011</a></p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><a id='section_2'></a></p>
 
 </div>
@@ -14680,7 +14672,7 @@ memory usage: 266.0+ KB
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Además de los números absolutos, queremos trabajar con tasas de casos activos y de fallecidos en proporción a la población de cada departamento. Para eso importamos a continuación <a href="http://www.ine.gub.uy/censos-1852-2011">datos del Insituto Nacional de Estadística</a>.<br>
-Nos interesan los datos de la última columna, correspondiente a la población de cada departamente de acuerdo al Censo 2011.</p>
+Interesan los datos de la última columna, correspondiente a la población de cada departamente de acuerdo al Censo 2011.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15504,7 +15496,7 @@ memory usage: 356.0+ bytes
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Agregamos la columna "Valor_tasa" a partir de las columnas "Valor" y "Pobl". De esta manera podemos graficar con datos de población afectada en proporción a la población total de cada departamento.</p>
+<p>Agregamos la columna "Valor_tasa" a partir de las columnas "Valor" y "Pobl". De esta manera, podemos graficar con datos de población afectada en proporción a la población de cada departamento.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15839,20 +15831,13 @@ memory usage: 356.0+ bytes
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>La función <em>prep_geom_df</em> toma las columnas con los nombres de las locaciones ('NAME_1') y de los vectores geoespaciales ('geometry'). Retorna una tabla con las locaciones en el index.</p>
-
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span> <span class="o">=</span> <span class="n">prep_geom_df</span><span class="p">(</span><span class="n">uru_geom</span><span class="p">,</span> <span class="s1">&#39;NAME_1&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">)</span>
-<span class="n">uru_geom</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -15872,93 +15857,9 @@ memory usage: 356.0+ bytes
 
 
 
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>geometry</th>
-    </tr>
-    <tr>
-      <th>location</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Artigas</th>
-      <td>POLYGON ((-56.97895 -30.09347, -56.95917 -30.0...</td>
-    </tr>
-    <tr>
-      <th>Canelones</th>
-      <td>MULTIPOLYGON (((-55.91930 -34.93597, -55.91930...</td>
-    </tr>
-    <tr>
-      <th>Cerro Largo</th>
-      <td>POLYGON ((-54.09551 -31.90558, -54.08907 -31.9...</td>
-    </tr>
-    <tr>
-      <th>Colonia</th>
-      <td>MULTIPOLYGON (((-57.88820 -34.47097, -57.88820...</td>
-    </tr>
-    <tr>
-      <th>Durazno</th>
-      <td>POLYGON ((-55.42105 -32.40704, -55.40257 -32.4...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
-
-
-
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f8ea2009b50&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fccc7263fd0&gt;</pre>
 </div>
 
 </div>
@@ -15986,10 +15887,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="p">[</span><span class="n">uru_geom</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="p">[</span><span class="n">uru_geom</span><span class="p">[</span><span class="s1">&#39;NAME_1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16005,13 +15906,13 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f8ea247db90&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fccc7321710&gt;</pre>
 </div>
 
 </div>
@@ -16045,10 +15946,11 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">uru_geom</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uru_geom</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">uru_geom</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">uru_geom</span><span class="p">[</span><span class="s1">&#39;NAME_1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="n">uru_geom</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">uru_geom</span><span class="p">[</span><span class="s1">&#39;NAME_1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -16059,10 +15961,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="p">[</span><span class="n">uru_geom</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uru_geom</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">uru_geom</span><span class="p">[</span><span class="s1">&#39;NAME_1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rivera&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16078,13 +15980,13 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f8ea24ea490&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fccc775f550&gt;</pre>
 </div>
 
 </div>
@@ -16128,7 +16030,27 @@ memory usage: 356.0+ bytes
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Para crear los mapas, necesitamos la tabla de datos en forma "wide" con las locaciones en el index y las fechas en las columnas. La función <em>prep_info_df</em> se encarga de esa transformación, con el parámetro <em>category</em> representando la categoría de valores que queremos graficar.</p>
+<p>Antes de construir los mapas, hay que preparar los dataframes (uru_pobl_df y uru_geom). Para esto se utiliza la clase <strong>DataFramePrepper</strong>.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prepper</span> <span class="o">=</span> <span class="n">DataFramePrepper</span><span class="p">(</span><span class="n">info_df</span><span class="o">=</span><span class="n">uru_pobl_df</span><span class="p">,</span> <span class="n">geom_df</span><span class="o">=</span><span class="n">uru_geom</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>La tabla de datos necesita tener forma "wide" con las locaciones en el index y las fechas en las columnas. El método <em>prep_info_df</em> se encarga de esa transformación, con el parámetro <em>category</em> representando la categoría de valores que queremos graficar.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16137,10 +16059,10 @@ memory usage: 356.0+ bytes
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_total_df</span> <span class="o">=</span> <span class="n">prep_info_df</span><span class="p">(</span><span class="n">uru_pobl_df</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s1">&#39;Casos activos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ready_info_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">prep_info_df</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="s1">&#39;Casos activos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
                                 <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span> 
                                 <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">activos_total_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">ready_info_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16362,7 +16284,7 @@ memory usage: 356.0+ bytes
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>La función <em>merge_info_geom_df</em>, aquí con el alias <em>merge</em>, combina la anterior tabla con la tabla geométrica de la sección anterior.</p>
+<p>El método <em>prep_geom_df</em> toma las columnas con los nombres de las locaciones ('NAME_1') y de los vectores geoespaciales ('geometry'). Retorna una tabla con las locaciones en el index.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16371,8 +16293,8 @@ memory usage: 356.0+ bytes
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_activos_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">activos_total_df</span><span class="p">,</span> <span class="n">uru_geom</span><span class="p">)</span>
-<span class="n">merged_activos_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ready_geom_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">prep_geom_df</span><span class="p">(</span><span class="n">location_col</span><span class="o">=</span><span class="s1">&#39;NAME_1&#39;</span><span class="p">,</span> <span class="n">geometry_col</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span>
+<span class="n">ready_geom_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16389,6 +16311,97 @@ memory usage: 356.0+ bytes
 
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+    </tr>
+    <tr>
+      <th>location</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Artigas</th>
+      <td>POLYGON ((-56.97895 -30.09347, -56.95917 -30.0...</td>
+    </tr>
+    <tr>
+      <th>Canelones</th>
+      <td>MULTIPOLYGON (((-55.91930 -34.93597, -55.91930...</td>
+    </tr>
+    <tr>
+      <th>Cerro Largo</th>
+      <td>POLYGON ((-54.09551 -31.90558, -54.08907 -31.9...</td>
+    </tr>
+    <tr>
+      <th>Colonia</th>
+      <td>MULTIPOLYGON (((-57.88820 -34.47097, -57.88820...</td>
+    </tr>
+    <tr>
+      <th>Durazno</th>
+      <td>POLYGON ((-55.42105 -32.40704, -55.40257 -32.4...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>La función <em>merge_info_geom</em> combina las tablas <em>ready_info_df</em> y <em>ready_geom_df</em>.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">merge_info_geom</span><span class="p">()</span>
+<span class="n">merged_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
 
 
 
@@ -16594,16 +16607,16 @@ memory usage: 356.0+ bytes
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>La clase <em>ChoroMap</em> contiene los métodos gráficos, de manipulacion de fechas y de exportación necesarios para crear los mapas. Su método principal es <em>choro_map</em>. Éste llama a todos los otros métodos necesarios para obtener un mapa animado.</p>
+<p>La clase <em>ChoroMapBuilder</em> contiene los métodos gráficos, de manipulación de fechas y de exportación necesarios para crear los mapas. Su método principal es <em>make_map</em>. Éste llama a todos los otros métodos necesarios para obtener un mapa animado.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_total</span> <span class="o">=</span> <span class="n">ChoroMap</span><span class="p">(</span><span class="n">merged_activos_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">ChoroMapBuilder</span><span class="p">(</span><span class="n">merged_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16614,10 +16627,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_total</span><span class="o">.</span><span class="n">choro_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total de casos activos de COVID-19 por departamento&quot;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">make_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total de casos activos de COVID-19 por departamento&quot;</span><span class="p">,</span> 
                         <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;Fuente: SINAE - https://catalogodatos.gub.uy/dataset/sinae01-covid19&#39;</span><span class="p">,</span> 
                         <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Número de casos activos&#39;</span><span class="p">,</span> 
                         <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;casos_activos&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
@@ -16636,7 +16649,7 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
 
 
 
@@ -16666,26 +16679,12 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_tasa_df</span> <span class="o">=</span> <span class="n">prep_info_df</span><span class="p">(</span><span class="n">uru_pobl_df</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s1">&#39;Casos activos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
-                               <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span>
-                               <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor_tasa&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_activos_tasa_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">activos_tasa_df</span><span class="p">,</span> <span class="n">uru_geom</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ready_info_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">prep_info_df</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="s1">&#39;Casos activos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
+                               <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span>
+                               <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor_tasa&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16699,7 +16698,21 @@ memory usage: 356.0+ bytes
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_tasa</span> <span class="o">=</span> <span class="n">ChoroMap</span><span class="p">(</span><span class="n">merged_activos_tasa_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">merge_info_geom</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">ChoroMapBuilder</span><span class="p">(</span><span class="n">merged_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16710,10 +16723,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">activos_tasa</span><span class="o">.</span><span class="n">choro_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Tasa de casos activos de COVID-19 por departamento&quot;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">make_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Tasa de casos activos de COVID-19 por departamento&quot;</span><span class="p">,</span> 
                         <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;Fuente: SINAE - https://catalogodatos.gub.uy/dataset/sinae01-covid19&#39;</span><span class="p">,</span> 
                         <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Casos activos cada 100.000 personas&#39;</span><span class="p">,</span> 
                         <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;activos_tasa&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
@@ -16732,7 +16745,7 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
 
 
 
@@ -16762,26 +16775,12 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_total_df</span> <span class="o">=</span> <span class="n">prep_info_df</span><span class="p">(</span><span class="n">uru_pobl_df</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s1">&#39;Fallecidos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
-                               <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span>
-                               <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_fallecidos_total_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">fallecidos_total_df</span><span class="p">,</span> <span class="n">uru_geom</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ready_info_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">prep_info_df</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="s1">&#39;Fallecidos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
+                               <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span>
+                               <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16795,7 +16794,21 @@ memory usage: 356.0+ bytes
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_total</span> <span class="o">=</span> <span class="n">ChoroMap</span><span class="p">(</span><span class="n">merged_fallecidos_total_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">merge_info_geom</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">ChoroMapBuilder</span><span class="p">(</span><span class="n">merged_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16806,10 +16819,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_total</span><span class="o">.</span><span class="n">choro_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Total de fallecidos por COVID-19 por departamento&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">make_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Total de fallecidos por COVID-19 por departamento&#39;</span><span class="p">,</span>
                           <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;Fuente: SINAE - https://catalogodatos.gub.uy/dataset/sinae01-covid19&#39;</span><span class="p">,</span>
                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Número de fallecidos&#39;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;fallecidos_total&#39;</span><span class="p">,</span> 
                           <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">fps</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
@@ -16828,7 +16841,7 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[38]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[39]:</div>
 
 
 
@@ -16858,10 +16871,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_tasa_df</span> <span class="o">=</span> <span class="n">prep_info_df</span><span class="p">(</span><span class="n">uru_pobl_df</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s1">&#39;Fallecidos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ready_info_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">prep_info_df</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="s1">&#39;Fallecidos&#39;</span><span class="p">,</span> <span class="n">col_dates</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span> 
                                <span class="n">col_location</span><span class="o">=</span><span class="s1">&#39;Territorio&#39;</span><span class="p">,</span> <span class="n">col_categories</span><span class="o">=</span><span class="s1">&#39;Indicador&#39;</span><span class="p">,</span>
                                <span class="n">col_values</span><span class="o">=</span><span class="s1">&#39;Valor_tasa&#39;</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">roll_avg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -16874,10 +16887,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_fallecidos_tasa_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">fallecidos_tasa_df</span><span class="p">,</span> <span class="n">uru_geom</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merged_df</span> <span class="o">=</span> <span class="n">prepper</span><span class="o">.</span><span class="n">merge_info_geom</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16888,10 +16901,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[46]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_tasa</span> <span class="o">=</span> <span class="n">ChoroMap</span><span class="p">(</span><span class="n">merged_fallecidos_tasa_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">ChoroMapBuilder</span><span class="p">(</span><span class="n">merged_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16902,10 +16915,10 @@ memory usage: 356.0+ bytes
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fallecidos_tasa</span><span class="o">.</span><span class="n">choro_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Tasa de fallecidos por COVID-19 cada 100.000 personas&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">make_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Tasa de fallecidos por COVID-19 cada 100.000 personas&#39;</span><span class="p">,</span>
                     <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;Fuente: SINAE - https://catalogodatos.gub.uy/dataset/sinae01-covid19&#39;</span><span class="p">,</span>
                     <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Fallecidos cada 100.000 personas&#39;</span><span class="p">,</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;es&#39;</span><span class="p">,</span> 
                     <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;fallecidos_tasa&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
@@ -16924,7 +16937,7 @@ memory usage: 356.0+ bytes
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[47]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[43]:</div>
 
 
 
