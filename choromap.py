@@ -21,7 +21,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 import contextily as ctx
 
-class ChoroMap():
+class ChoroMapBuilder():
     """ 
     A class for building animated choropleth maps. 
       
@@ -40,7 +40,7 @@ class ChoroMap():
     def __init__(self, merged_df):
         self.merged_df = merged_df
 
-    def choro_map(self, title, subtitle, unit, save_name, 
+    def make_map(self, title, subtitle, unit, save_name, 
                     labels=True, lang='en', video=True, fig_size=(16,8), 
                     color='OrRd', count='all', begin_date=None, norm=colors.Normalize, fps=8):
         """
@@ -282,3 +282,84 @@ class ChoroMap():
                 <source src='charts/exports/{save_name}.mp4'>
                 Your browser does not support the video tag.</video>""")
 
+class DataFramePrepper():
+    def __init__(self, info_df, geom_df):
+        self.info_df = info_df
+        self.geom_df = geom_df
+
+    def prep_info_df(self, category, col_dates, col_location, col_categories=None, col_values=None, long=False, roll_avg=False, info_df=None):
+        """
+        Prepares info_df for processing:
+            1. Focus on relevant information: 'location', 'date' and the category to be tracked
+            2. Pivot table so locations are indexes and dates are now columns
+            3. Interpolate values so there are no gaps
+            4. (Optional) Roll averages with 7-day windows to smooth out highly unstable values
+            5. Fill NaN with 0: applies to eariler dates since we used interpolation already.
+
+        roll_avg : bool, optional
+                indicates whether or not to apply a rolling average 
+                to smooth out highly variable data
+        """
+        if info_df is None:
+            info_df = self.info_df
+        
+        if long:
+            temp_df = self.long2wide(info_df=info_df, category=category,
+                                col_categories=col_categories, col_values=col_values)
+        else:
+            temp_df = info_df
+
+        temp_df.rename(columns={col_dates: 'date',
+                                col_location: 'location'}, inplace=True)
+
+        temp_df = temp_df[['location', 'date', category]]
+        temp_df = temp_df.pivot_table(
+            index='location', columns='date', values=category, dropna=False)
+        temp_df.interpolate(
+            method='linear', limit_direction='forward', axis=1, inplace=True)
+
+        if roll_avg:
+            temp_df = temp_df.rolling(7, axis=1).mean()
+
+        temp_df.fillna(0, inplace=True)
+
+        self.ready_info_df = temp_df
+        return self.ready_info_df
+
+    @staticmethod
+    def long2wide(info_df, category, col_categories, col_values):
+        temp_df = info_df.groupby([col_categories]).get_group(category)
+        temp_df.drop(columns=[col_categories], inplace=True)
+        temp_df.rename(columns={col_values: category}, inplace=True)
+        return temp_df
+
+
+    def prep_geom_df(self, location_col, geometry_col, geom_df=None):
+        if geom_df is None:
+            geom_df = self.geom_df
+
+        temp_df = geom_df
+        temp_df = temp_df.rename(columns={location_col: 'location'})
+        temp_df = temp_df[['location', geometry_col]]
+        temp_df.set_index('location', inplace=True)
+        
+        self.ready_geom_df = temp_df
+        return self.ready_geom_df
+
+
+    def merge_info_geom(self, info_df=None, geom_df=None):
+        """
+        Merges info_df with geom_df.
+        Returns a dataframe with geographical information and relevant data to be tracked,
+        indexed by location.
+        """
+        if info_df is None:
+            info_df = self.ready_info_df
+        
+        if geom_df is None:
+            geom_df = self.ready_geom_df
+
+        temp_df = geom_df.merge(info_df, on='location', how='left')
+
+        self.merged_df = temp_df
+        return self.merged_df

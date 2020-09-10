@@ -52,12 +52,3 @@ def merge_info_geom(info_df, geom_df):
     merged_df = geom_df.merge(info_df, on='location', how='left')
     return merged_df
 
-# def prep_uru_info_df(info_df, column, roll_avg=True):
-#     clean_info_df = info_df.groupby(['Indicador']).get_group(column)
-#     clean_info_df.drop('Indicador', axis=1, inplace=True)
-#     clean_info_df.rename(columns={
-#                          'Fecha': 'date', 'Territorio': 'location', 'Valor': column}, inplace=True)
-#     clean_info_df = prep_info_df(clean_info_df, column=column, roll_avg=roll_avg)
-#     return clean_info_df
-
-
