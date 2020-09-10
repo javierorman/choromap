@@ -13,29 +13,17 @@ from IPython.display import Image, Video, HTML, IFrame, display
 from moviepy.editor import *
 
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
 from matplotlib import colors
-from matplotlib import cm
 from matplotlib.ticker import ScalarFormatter, MaxNLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-
-import contextily as ctx
 
 class ChoroMapBuilder():
     """ 
     A class for building animated choropleth maps. 
       
     Attributes: 
-        column : str 
-            the name of the column to focus on from the informational dataframe
-        
-        info_df : pd.DataFrame
-            the informational dataframe containing data to be tracked
-        
-        map_df : pd.DataFrame
-            the dataframe containing geometrical information for building maps
-        
-        
+        merged_df : pd.DataFrame
+            DataFrame containing locations in the index, dates in the columns and one column with Shapely geometries
     """
     def __init__(self, merged_df):
         self.merged_df = merged_df
@@ -44,19 +32,22 @@ class ChoroMapBuilder():
                     labels=True, lang='en', video=True, fig_size=(16,8), 
                     color='OrRd', count='all', begin_date=None, norm=colors.Normalize, fps=8):
         """
-        Usually only method that needs to be called externally. 
         It calls for the whole process of creating the maps and turning them into gifs and/or videos.
         
         Parameters:
             title : str
                 Title to be displayed above the map
+            subtitle : str
+                Possible use is to reference the source of the data
+            unit : str
+                Units for colorbar
             save_name : str
                 Name to be used in exports (static map images, gifs, videos) and directory paths
-            video : bool
-                If true, a video will be created. If left at default False, only a gif will be created and displayed.
             labels : bool
                 If true, the make_static_maps method will insert labels in -hopefully- safe regions of the map
             lang : language code for babel.format_date, passed to pretty_date method
+            video : bool
+                If true, a video will be created. If left at default False, only a gif will be created and displayed.
             fig_size : tuple (height, width)
                 Size for the figure.
             color : passes to cmap option in Pandas plot function, which in turn uses Matplotlib Colormaps. 
@@ -65,6 +56,8 @@ class ChoroMapBuilder():
                 (the _r at the end reverses the color sequence)
             count : 'all' or int > 1
                 Number of maps to be created.
+            begin_date : str
+                Date formatted as yyyy-mm-dd to match dates in merged_df
             norm : Normalization class to use for mapping values into the colormap. 
                 The classes are part of Matplotlib module colors. 
                 colors.Normalize provides linear normalization
@@ -88,31 +81,22 @@ class ChoroMapBuilder():
 
     def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, begin_date, norm, png_output_path):
         """
-        Called by choro_map method to draw all static maps, then close the figure window 
+        Called by make_map method to draw all static maps, then close the figure window 
         so it doesn't render in Notebook automatically.
         """
         fig, ax, cax, tax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count, begin_date=begin_date)
 
-        # OrRd_clrs = cm.get_cmap('OrRd', 256)
-        # w_OrRd_clrs = OrRd_clrs(np.linspace(0, 1, 256))
-        # white = np.array([256/256, 256/256, 256/256, 1])
-        # w_OrRd_clrs[:1, :] = white
-        # w_OrRd = colors.ListedColormap(w_OrRd_clrs)
-
         for date in list_of_dates:
             # https://geopandas.org/reference.html#geopandas.GeoDataFrame.plot
-            # old: linewidth=0.2 edgecolor='0.8'
             ax = merged_df.plot(column=date, ax=ax, cax=cax, cmap=color, alpha=1,
                     linewidth=1.5, edgecolor='white', vmin=vmin, vmax=vmax, 
                     legend=True, norm=norm(vmin=vmin, vmax=vmax),
                     legend_kwds={'orientation': "vertical"})
-            # fig.delaxes(fig.get_axes()[1])
+
             if labels:
                 merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
                     **{"fontsize": "x-small", "ha": "center", "va": "top"}), axis=1)
-            # ctx.add_basemap(
-            #     ax=ax, source=ctx.providers.OpenStreetMap.Mapnik)
             
             self.make_timeline(tax=tax, list_of_dates=list_of_dates, date=date, lang=lang)
             self.format_plot(fig=fig, ax=ax, cax=cax, date=date, title=title, subtitle=subtitle, unit=unit, lang=lang)
@@ -122,7 +106,7 @@ class ChoroMapBuilder():
     def build_figure(self, merged_df, fig_size, norm):
         """
         Builds the figure to be used in all maps. The figure includes a main axis (ax) that will contain the maps
-        and a secondary axis containing the colorbar (cax).
+        Additional axes: timeline (tax) and colorbar (cax).
         It also sets the minimum and maximum values for the graph. 
         It finds the maximum value by looking at the whole table except the 'geometry' column.
         """
@@ -132,12 +116,8 @@ class ChoroMapBuilder():
 
         divider = make_axes_locatable(ax)
         tax = divider.append_axes("bottom", size="1%", pad=0.3)
-        # tax = fig.add_axes([0.4, 0.12, 0.3, 0.01])
 
-        # cax = divider.append_axes("right", size="3%", pad=0.3)
         cax = fig.add_axes([0.85, 0.25, 0.01, 0.5])
-        
-        
         
         vmax = merged_df.iloc[:, 1:].max().max()
         if norm == colors.LogNorm:
@@ -145,41 +125,24 @@ class ChoroMapBuilder():
         else:
             vmin = 0
 
-
         return (fig, ax, cax, tax, vmin, vmax)
 
     def format_plot(self, fig, ax, cax, date, title, subtitle, unit, lang):
         """
-        Format title, date and colorbar ticks.
-        
-        Arguments:
-            fig : fig created in build_figure
-            ax : axis created in build_figure, plotted in make_static_maps
-            date : date from the iterable in make_static_maps
-            title : entered by user when calling choro_map method
-        """        
-
-        # light_blue = '#d4f6ff'
-        # dark_blue = '#132157'
-        # plt.rcParams['savefig.facecolor'] = dark_blue
-
-        # COLOR = 'white'
-        # rcParams['text.color'] = COLOR
-        # rcParams['axes.titlecolor'] = COLOR
-        # rcParams['axes.labelcolor'] = COLOR
-        # rcParams['xtick.color'] = COLOR
-        # rcParams['ytick.color'] = COLOR
+        Add title, subtitle, date, colorbar units, colorbar ticks.
+        """       
+        # Add title
         fig.suptitle(title, fontsize=15, weight='bold')
+        
+        # Add subtitle
         ax.set_title(subtitle, fontsize=12)        
         ax.set_axis_off()
+        
+        # Add date on the bottom-left
         ax.text(0, 0, self.pretty_date(date, lang), fontdict={
                 'fontsize': 12}, transform=ax.transAxes)
 
-        # cb = ax.get_figure().get_axes()[1]
-        # ###
-        # # Possibly include LogFormatter() and LogLocator() in case of LogNorm
-        # # https://matplotlib.org/3.3.0/api/ticker_api.html
-        # ###
+        # Format colorbar
         cax.yaxis.set_major_formatter(ScalarFormatter())
         cax.yaxis.set_major_locator(MaxNLocator())
         cax.set_ylabel(unit)
@@ -283,6 +246,16 @@ class ChoroMapBuilder():
                 Your browser does not support the video tag.</video>""")
 
 class DataFramePrepper():
+    """
+    A class for manipulating informational and geospatial dataframes in preparation for using ChoroMapBuilder.
+    
+    Attributes:
+        info_df : pd.DataFrame
+            the informational dataframe containing values to be tracked
+
+        map_df : pd.DataFrame
+            the dataframe containing geometrical information for building maps
+    """
     def __init__(self, info_df, geom_df):
         self.info_df = info_df
         self.geom_df = geom_df
@@ -290,15 +263,25 @@ class DataFramePrepper():
     def prep_info_df(self, category, col_dates, col_location, col_categories=None, col_values=None, long=False, roll_avg=False, info_df=None):
         """
         Prepares info_df for processing:
-            1. Focus on relevant information: 'location', 'date' and the category to be tracked
+            1. Focus on relevant information: dates, locations and category to be tracked
             2. Pivot table so locations are indexes and dates are now columns
             3. Interpolate values so there are no gaps
             4. (Optional) Roll averages with 7-day windows to smooth out highly unstable values
             5. Fill NaN with 0: applies to eariler dates since we used interpolation already.
-
+        
+        category : str 
+            the name of the column to focus on from the informational dataframe. 
+            For dataframes in 'long' format, the category to focus on from col_categories
+        col_dates : str
+            the name of the column that contains dates
+        col_location : the name of the column that contains the locations (e.g. 'States', 'Countries', etc.)
+        col_values : applicable for dataframes in 'long' formats
+        long : bool
+            whether the dataframe is in a wide (False) or long (True) format
         roll_avg : bool, optional
                 indicates whether or not to apply a rolling average 
                 to smooth out highly variable data
+        info_df : parameter used for testing. In practice, info_df will take the value of self.info_df, initialized along with the DataFramePrepper instance
         """
         if info_df is None:
             info_df = self.info_df
@@ -352,6 +335,7 @@ class DataFramePrepper():
         Merges info_df with geom_df.
         Returns a dataframe with geographical information and relevant data to be tracked,
         indexed by location.
+        The returned dataframe will then be passed as an argument when initializing ChoroMapBuilder
         """
         if info_df is None:
             info_df = self.ready_info_df
