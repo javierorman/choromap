@@ -67,17 +67,18 @@ class ChoroMapBuilder():
                 then as an argument to gifski
         """        
         png_output_path = f'charts/maps/{save_name}'
+        
         self.create_png_directory(png_output_path=png_output_path)
         self.delete_static_maps(png_output_path=png_output_path)
         self.make_static_maps(merged_df=self.merged_df, title=title, subtitle=subtitle, unit=unit, labels=labels, lang=lang, 
                                 fig_size=fig_size, color=color, count=count, begin_date=begin_date, norm=norm, png_output_path=png_output_path)
+        
         self.create_exports_directory()
-        self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
-        if video:
-            self.make_video(save_name=save_name)
-            return self.display_video(save_name=save_name)
-        else:
-            return self.display_gif(save_name=save_name)
+        # self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
+        self.make_video(fps=fps, png_output_path=png_output_path, save_name=save_name)
+        return self.display_video(save_name=save_name)
+        # else:
+        #     return self.display_gif(save_name=save_name)
 
     def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, begin_date, norm, png_output_path):
         """
@@ -86,6 +87,8 @@ class ChoroMapBuilder():
         """
         fig, ax, cax, tax, vmin, vmax = self.build_figure(merged_df=merged_df, fig_size=fig_size, norm=norm)
         list_of_dates = self.get_dates(merged_df=merged_df, count=count, begin_date=begin_date)
+
+        file_num = 0
 
         for date in list_of_dates:
             # https://geopandas.org/reference.html#geopandas.GeoDataFrame.plot
@@ -100,7 +103,11 @@ class ChoroMapBuilder():
             
             self.make_timeline(tax=tax, list_of_dates=list_of_dates, date=date, lang=lang)
             self.format_plot(fig=fig, ax=ax, cax=cax, date=date, title=title, subtitle=subtitle, unit=unit, lang=lang)
-            self.save_and_clear_fig(ax=ax, tax=tax, date=date, png_output_path=png_output_path)
+            
+            file_num = str(file_num).zfill(4)
+            self.save_and_clear_fig(ax=ax, tax=tax, file_num=file_num, png_output_path=png_output_path)
+            file_num = int(file_num) + 1
+
         plt.close()
             
     def build_figure(self, merged_df, fig_size, norm):
@@ -155,7 +162,7 @@ class ChoroMapBuilder():
         lim_date = lambda x: self.pretty_date(list_of_dates[x], lang=lang, format='medium')
         tax.set_xlim(lim_date(0), lim_date(-1))
 
-    def save_and_clear_fig(self, ax, tax, date, png_output_path):
+    def save_and_clear_fig(self, ax, tax, file_num, png_output_path):
         """
         Save static figure, then clear ax to avoid memory over-use.
         
@@ -164,7 +171,7 @@ class ChoroMapBuilder():
             date : date from the iterable in make_static_maps 
             png_output_path : str passed from self.choro_map()
         """
-        filepath = os.path.join(png_output_path, date+'.png')
+        filepath = os.path.join(png_output_path, file_num+'.png')
 
         plt.savefig(filepath)
         ax.clear()
@@ -230,16 +237,15 @@ class ChoroMapBuilder():
 
         return list_of_dates
             
-    def make_gif(self, fps, save_name, png_output_path):
-        os.system(f'gifski -o ./charts/exports/{save_name}.gif ./{png_output_path}/*.png --fps {fps} --fast')
+    # def make_gif(self, fps, save_name, png_output_path):
+    #     os.system(f'gifski -o ./charts/exports/{save_name}.gif ./{png_output_path}/*.png --fps {fps} --fast')
 
-    def display_gif(self, save_name):
-        HTML(f'<iframe src="charts/exports/{save_name}.gif" frameborder="0" allowfullscreen></iframe>')
+    # def display_gif(self, save_name):
+    #     HTML(f'<iframe src="charts/exports/{save_name}.gif" frameborder="0" allowfullscreen></iframe>')
         
-    def make_video(self, save_name):
-        my_clip = VideoFileClip(f"charts/exports/{save_name}.gif")
-        my_clip.write_videofile(f"charts/exports/{save_name}.mp4", logger=None)
-        
+    def make_video(self, fps, png_output_path, save_name):
+        os.system(f"""ffmpeg -y -f image2 -r 6 -i {png_output_path}/%04d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p ./charts/exports/{save_name}.mp4""")
+
     def display_video(self, save_name):
         return HTML(f"""<video width='640' height='480' controls>
                 <source src='charts/exports/{save_name}.mp4'>
