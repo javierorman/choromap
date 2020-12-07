@@ -29,10 +29,10 @@ class ChoroMapBuilder():
         self.merged_df = merged_df
 
     def make_map(self, title, subtitle, unit, save_name, 
-                    labels=True, lang='en', video=True, fig_size=(16,8), 
+                    labels=True, lang='en', fig_size=(16,8), 
                     color='OrRd', count='all', begin_date=None, norm=colors.Normalize, fps=8):
         """
-        It calls for the whole process of creating the maps and turning them into gifs and/or videos.
+        It calls for the whole process of creating the maps and turning them into videos.
         
         Parameters:
             title : str
@@ -46,8 +46,6 @@ class ChoroMapBuilder():
             labels : bool
                 If true, the make_static_maps method will insert labels in -hopefully- safe regions of the map
             lang : language code for babel.format_date, passed to pretty_date method
-            video : bool
-                If true, a video will be created. If left at default False, only a gif will be created and displayed.
             fig_size : tuple (height, width)
                 Size for the figure.
             color : passes to cmap option in Pandas plot function, which in turn uses Matplotlib Colormaps. 
@@ -74,11 +72,8 @@ class ChoroMapBuilder():
                                 fig_size=fig_size, color=color, count=count, begin_date=begin_date, norm=norm, png_output_path=png_output_path)
         
         self.create_exports_directory()
-        # self.make_gif(fps=fps, save_name=save_name, png_output_path=png_output_path)
         self.make_video(fps=fps, png_output_path=png_output_path, save_name=save_name)
         return self.display_video(save_name=save_name)
-        # else:
-        #     return self.display_gif(save_name=save_name)
 
     def make_static_maps(self, merged_df, title, subtitle, unit, labels, lang, fig_size, color, count, begin_date, norm, png_output_path):
         """
@@ -237,12 +232,6 @@ class ChoroMapBuilder():
 
         return list_of_dates
             
-    # def make_gif(self, fps, save_name, png_output_path):
-    #     os.system(f'gifski -o ./charts/exports/{save_name}.gif ./{png_output_path}/*.png --fps {fps} --fast')
-
-    # def display_gif(self, save_name):
-    #     HTML(f'<iframe src="charts/exports/{save_name}.gif" frameborder="0" allowfullscreen></iframe>')
-        
     def make_video(self, fps, png_output_path, save_name):
         os.system(f"""ffmpeg -y -f image2 -r 6 -i {png_output_path}/%04d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p ./charts/exports/{save_name}.mp4""")
 
