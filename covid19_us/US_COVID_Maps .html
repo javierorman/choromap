@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>US_COVID_Maps</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
@@ -8,8 +9,13 @@
 
 
 <style type="text/css">
-    .highlight .hll { background-color: var(--jp-cell-editor-active-background) }
-.highlight  { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
+    pre { line-height: 125%; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: var(--jp-cell-editor-active-background) }
+.highlight { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
 .highlight .c { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment */
 .highlight .err { color: var(--jp-mirror-editor-error-color) } /* Error */
 .highlight .k { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword */
@@ -14191,7 +14197,23 @@ a.anchor-link {
 .highlight  {
     margin: 0.4em;
 }
+
+/* Input area styling */
+.jp-InputArea {
+    overflow: hidden;
+}
+
+.jp-InputArea-editor {
+    overflow: hidden;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+}
 </style>
+
 
 
 <!-- Load mathjax -->
@@ -14243,9 +14265,9 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><strong>Javier Orman</strong><br>
-GitHub repository for this notebook: <a href="https://github.com/javierorman/choromap/tree/master/covid19_us">https://github.com/javierorman/choromap/tree/master/covid19_us</a><br>
+GitHub repository for this ChoroMap: <a href="https://github.com/javierorman/choromap/">https://github.com/javierorman/choromap/</a><br>
 LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedin.com/in/javierorman/</a></p>
-<p>Latest update: 9/12/2020</p>
+<p>Latest update: 1/28/2021</p>
 
 </div>
 </div>
@@ -14395,8 +14417,11 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>date</th>
       <th>state</th>
       <th>positive</th>
+      <th>probableCases</th>
       <th>negative</th>
       <th>pending</th>
+      <th>totalTestResultsSource</th>
+      <th>totalTestResults</th>
       <th>hospitalizedCurrently</th>
       <th>hospitalizedCumulative</th>
       <th>inIcuCurrently</th>
@@ -14433,8 +14458,6 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>positiveIncrease</th>
       <th>negativeIncrease</th>
       <th>total</th>
-      <th>totalTestResultsSource</th>
-      <th>totalTestResults</th>
       <th>totalTestResultsIncrease</th>
       <th>posNeg</th>
       <th>deathIncrease</th>
@@ -14451,30 +14474,33 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
   <tbody>
     <tr>
       <th>0</th>
-      <td>20200911</td>
+      <td>20210128</td>
       <td>AK</td>
-      <td>7024.0</td>
-      <td>387562.0</td>
-      <td>NaN</td>
-      <td>44.0</td>
+      <td>52150.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>7.0</td>
+      <td>totalTestsViral</td>
+      <td>1479849.0</td>
+      <td>42.0</td>
+      <td>1201.0</td>
       <td>NaN</td>
-      <td>2359.0</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>A</td>
-      <td>9/11/2020 03:59</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>09/10 23:59</td>
-      <td>43.0</td>
+      <td>1/28/2021 03:59</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>01/27 22:59</td>
+      <td>262.0</td>
+      <td>1201.0</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>1479849.0</td>
+      <td>62705.0</td>
+      <td>1415473.0</td>
       <td>NaN</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>394586.0</td>
-      <td>6340.0</td>
-      <td>387966.0</td>
-      <td>7024.0</td>
-      <td>43.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14489,16 +14515,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>2</td>
-      <td>109</td>
-      <td>1400</td>
-      <td>394586</td>
-      <td>posNeg</td>
-      <td>394586.0</td>
-      <td>1509</td>
-      <td>394586</td>
-      <td>1</td>
+      <td>199</td>
       <td>0</td>
-      <td>7362921fa69c20bc82d18bd257382ca0197025c1</td>
+      <td>52150</td>
+      <td>12449</td>
+      <td>52150</td>
+      <td>1</td>
+      <td>1</td>
+      <td>6932258339f816d5d92e6907200e546fb5342eb3</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14508,37 +14532,40 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>1</th>
-      <td>20200911</td>
+      <td>20210128</td>
       <td>AL</td>
-      <td>136703.0</td>
-      <td>874219.0</td>
+      <td>452734.0</td>
+      <td>95263.0</td>
+      <td>1759171.0</td>
       <td>NaN</td>
-      <td>811.0</td>
-      <td>15527.0</td>
+      <td>totalTestsPeopleViral</td>
+      <td>2116642.0</td>
+      <td>2052.0</td>
+      <td>41483.0</td>
       <td>NaN</td>
-      <td>1593.0</td>
+      <td>2533.0</td>
       <td>NaN</td>
-      <td>877.0</td>
-      <td>54223.0</td>
-      <td>B</td>
-      <td>9/11/2020 11:00</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>09/11 07:00</td>
-      <td>2333.0</td>
-      <td>15527.0</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>998316.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>124097.0</td>
-      <td>2204.0</td>
-      <td>129.0</td>
+      <td>1449.0</td>
+      <td>242143.0</td>
+      <td>A</td>
+      <td>1/28/2021 11:00</td>
+      <td>2021-01-28T11:00:00Z</td>
+      <td>01/28 06:00</td>
+      <td>7340.0</td>
+      <td>41483.0</td>
+      <td>2021-01-28T11:00:00Z</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>357471.0</td>
+      <td>5928.0</td>
+      <td>1412.0</td>
+      <td>NaN</td>
+      <td>2116642.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>55157.0</td>
+      <td>NaN</td>
+      <td>103530.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14546,16 +14573,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>1</td>
-      <td>1138</td>
-      <td>4046</td>
-      <td>1010922</td>
-      <td>posNeg</td>
-      <td>1010922.0</td>
-      <td>5184</td>
-      <td>1010922</td>
-      <td>32</td>
-      <td>188</td>
-      <td>49b386097fd3df379e87d6c0cf9d84d574230b36</td>
+      <td>3648</td>
+      <td>8103</td>
+      <td>2211905</td>
+      <td>10607</td>
+      <td>2211905</td>
+      <td>168</td>
+      <td>0</td>
+      <td>29405d617beb57f1ee9b5f00a86aac1008f78acd</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14565,54 +14590,55 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>2</th>
-      <td>20200911</td>
+      <td>20210128</td>
       <td>AR</td>
-      <td>68983.0</td>
-      <td>729375.0</td>
+      <td>290856.0</td>
+      <td>58518.0</td>
+      <td>2161833.0</td>
       <td>NaN</td>
-      <td>392.0</td>
-      <td>4678.0</td>
+      <td>totalTestsViral</td>
+      <td>2394171.0</td>
+      <td>996.0</td>
+      <td>13505.0</td>
+      <td>307.0</td>
       <td>NaN</td>
+      <td>143.0</td>
+      <td>1414.0</td>
+      <td>268495.0</td>
+      <td>A+</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>4784.0</td>
+      <td>13505.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>2394171.0</td>
       <td>NaN</td>
-      <td>76.0</td>
-      <td>597.0</td>
-      <td>61245.0</td>
-      <td>A</td>
-      <td>9/11/2020 14:35</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>09/11 10:35</td>
-      <td>953.0</td>
-      <td>4678.0</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>796179.0</td>
-      <td>NaN</td>
-      <td>729375.0</td>
-      <td>67911.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>2161833.0</td>
+      <td>232338.0</td>
+      <td>3864.0</td>
+      <td>920.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>17549.0</td>
-      <td>2709.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>354207.0</td>
+      <td>68660.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>5</td>
-      <td>1180</td>
-      <td>0</td>
-      <td>798358</td>
-      <td>posNeg</td>
-      <td>798358.0</td>
-      <td>1180</td>
-      <td>798358</td>
-      <td>13</td>
-      <td>72</td>
-      <td>2fee4a33919d59c199473a27dcdfab3551c0b182</td>
+      <td>1892</td>
+      <td>12762</td>
+      <td>2452689</td>
+      <td>14233</td>
+      <td>2452689</td>
+      <td>42</td>
+      <td>58</td>
+      <td>7f491ba52aea5b93016e6ca41059b491f11fc5bf</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14622,10 +14648,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>3</th>
-      <td>20200911</td>
+      <td>20210128</td>
       <td>AS</td>
       <td>0.0</td>
-      <td>1571.0</td>
+      <td>NaN</td>
+      <td>2140.0</td>
+      <td>NaN</td>
+      <td>totalTestsViral</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14634,14 +14664,13 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>C</td>
-      <td>9/1/2020 00:00</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>08/31 20:00</td>
+      <td>12/1/2020 00:00</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>11/30 19:00</td>
       <td>0.0</td>
       <td>NaN</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>1571.0</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>0.0</td>
@@ -14662,14 +14691,12 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>60</td>
       <td>0</td>
       <td>0</td>
-      <td>1571</td>
-      <td>posNeg</td>
-      <td>1571.0</td>
+      <td>2140</td>
       <td>0</td>
-      <td>1571</td>
+      <td>2140</td>
       <td>0</td>
       <td>0</td>
-      <td>af92759401b47f8c1b3777fde5b06c65b773a25a</td>
+      <td>0138eb6fe94624353fb7066d0113058280086d56</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14679,34 +14706,37 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>4</th>
-      <td>20200911</td>
+      <td>20210128</td>
       <td>AZ</td>
-      <td>207523.0</td>
-      <td>1071901.0</td>
+      <td>743232.0</td>
+      <td>46684.0</td>
+      <td>2712847.0</td>
       <td>NaN</td>
-      <td>577.0</td>
-      <td>21747.0</td>
-      <td>171.0</td>
+      <td>totalTestsViral</td>
+      <td>6549568.0</td>
+      <td>4087.0</td>
+      <td>51349.0</td>
+      <td>1023.0</td>
       <td>NaN</td>
-      <td>100.0</td>
+      <td>692.0</td>
       <td>NaN</td>
-      <td>32472.0</td>
+      <td>101104.0</td>
       <td>A+</td>
-      <td>9/11/2020 00:00</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>09/10 20:00</td>
-      <td>5288.0</td>
-      <td>21747.0</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>1277543.0</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>12819.0</td>
+      <td>51349.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>6549568.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>205642.0</td>
-      <td>5014.0</td>
-      <td>274.0</td>
+      <td>696548.0</td>
+      <td>11440.0</td>
+      <td>1379.0</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>275536.0</td>
+      <td>3409395.0</td>
+      <td>415234.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14717,16 +14747,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>4</td>
-      <td>521</td>
-      <td>6169</td>
-      <td>1279424</td>
-      <td>posNeg</td>
-      <td>1279424.0</td>
-      <td>6690</td>
-      <td>1279424</td>
-      <td>15</td>
-      <td>136</td>
-      <td>e8b36c0e4297a0b87cb0a21840d7fdb9eb5d17dc</td>
+      <td>4671</td>
+      <td>10704</td>
+      <td>3456079</td>
+      <td>45161</td>
+      <td>3456079</td>
+      <td>176</td>
+      <td>312</td>
+      <td>ef4f84f80eb115d6b32a4c6136a6ed1f4a5cf71f</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14790,13 +14818,17 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>10733</th>
-      <td>20200124</td>
+      <th>18637</th>
+      <td>20200117</td>
       <td>WA</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>totalTestEncountersViral</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14818,7 +14850,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>0.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14834,70 +14866,11 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>posNeg</td>
-      <td>0.0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>6f40087f42d06db4121e09b184785b4110cd4df8</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>10734</th>
-      <td>20200123</td>
-      <td>MA</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>2.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>25</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>totalTestsViral</td>
-      <td>2.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>885628de5b5c6da109b79adb7faad55e4815624a</td>
+      <td>effcc7b17054638471dec2f2a9cdbd3229d92042</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -14906,11 +14879,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
     </tr>
     <tr>
-      <th>10735</th>
-      <td>20200123</td>
+      <th>18638</th>
+      <td>20200116</td>
       <td>WA</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>totalTestEncountersViral</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14932,7 +14908,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>0.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -14948,70 +14924,11 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>posNeg</td>
-      <td>0.0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>978c05d8a7a9d46e9fa826d83215f5b9732f2c6d</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>10736</th>
-      <td>20200122</td>
-      <td>MA</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>25</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>totalTestsViral</td>
-      <td>1.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0f3eebd5c4a00d0aaa235b0534bd4243794652b6</td>
+      <td>d9453d58f00994cff1f81639e95e532d1dd10138</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15020,11 +14937,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
     </tr>
     <tr>
-      <th>10737</th>
-      <td>20200122</td>
+      <th>18639</th>
+      <td>20200115</td>
       <td>WA</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>totalTestEncountersViral</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15046,7 +14966,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>0.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15062,13 +14982,127 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>posNeg</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>bd1eef4afdffd883e37be1d3f321dc3b0e75f591</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18640</th>
+      <td>20200114</td>
+      <td>WA</td>
       <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>totalTestEncountersViral</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>53</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>06e7ce37c84a602f9b8704eb4a4e8d3bb9726026</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>84aeea9c6a284b151fdb42a863db3c0aadb651bf</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18641</th>
+      <td>20200113</td>
+      <td>WA</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>totalTestEncountersViral</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>53</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4b278ad9e69da1c2a818f761c25f10c4bb6bf2a7</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15078,7 +15112,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
   </tbody>
 </table>
-<p>10738 rows × 54 columns</p>
+<p>18642 rows × 55 columns</p>
 </div>
 </div>
 
@@ -15122,22 +15156,21 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>Index([&#39;date&#39;, &#39;state&#39;, &#39;positive&#39;, &#39;negative&#39;, &#39;pending&#39;,
-       &#39;hospitalizedCurrently&#39;, &#39;hospitalizedCumulative&#39;, &#39;inIcuCurrently&#39;,
-       &#39;inIcuCumulative&#39;, &#39;onVentilatorCurrently&#39;, &#39;onVentilatorCumulative&#39;,
-       &#39;recovered&#39;, &#39;dataQualityGrade&#39;, &#39;lastUpdateEt&#39;, &#39;dateModified&#39;,
-       &#39;checkTimeEt&#39;, &#39;death&#39;, &#39;hospitalized&#39;, &#39;dateChecked&#39;,
-       &#39;totalTestsViral&#39;, &#39;positiveTestsViral&#39;, &#39;negativeTestsViral&#39;,
-       &#39;positiveCasesViral&#39;, &#39;deathConfirmed&#39;, &#39;deathProbable&#39;,
-       &#39;totalTestEncountersViral&#39;, &#39;totalTestsPeopleViral&#39;,
-       &#39;totalTestsAntibody&#39;, &#39;positiveTestsAntibody&#39;, &#39;negativeTestsAntibody&#39;,
-       &#39;totalTestsPeopleAntibody&#39;, &#39;positiveTestsPeopleAntibody&#39;,
-       &#39;negativeTestsPeopleAntibody&#39;, &#39;totalTestsPeopleAntigen&#39;,
-       &#39;positiveTestsPeopleAntigen&#39;, &#39;totalTestsAntigen&#39;,
-       &#39;positiveTestsAntigen&#39;, &#39;fips&#39;, &#39;positiveIncrease&#39;, &#39;negativeIncrease&#39;,
-       &#39;total&#39;, &#39;totalTestResultsSource&#39;, &#39;totalTestResults&#39;,
-       &#39;totalTestResultsIncrease&#39;, &#39;posNeg&#39;, &#39;deathIncrease&#39;,
-       &#39;hospitalizedIncrease&#39;, &#39;hash&#39;, &#39;commercialScore&#39;,
+<pre>Index([&#39;date&#39;, &#39;state&#39;, &#39;positive&#39;, &#39;probableCases&#39;, &#39;negative&#39;, &#39;pending&#39;,
+       &#39;totalTestResultsSource&#39;, &#39;totalTestResults&#39;, &#39;hospitalizedCurrently&#39;,
+       &#39;hospitalizedCumulative&#39;, &#39;inIcuCurrently&#39;, &#39;inIcuCumulative&#39;,
+       &#39;onVentilatorCurrently&#39;, &#39;onVentilatorCumulative&#39;, &#39;recovered&#39;,
+       &#39;dataQualityGrade&#39;, &#39;lastUpdateEt&#39;, &#39;dateModified&#39;, &#39;checkTimeEt&#39;,
+       &#39;death&#39;, &#39;hospitalized&#39;, &#39;dateChecked&#39;, &#39;totalTestsViral&#39;,
+       &#39;positiveTestsViral&#39;, &#39;negativeTestsViral&#39;, &#39;positiveCasesViral&#39;,
+       &#39;deathConfirmed&#39;, &#39;deathProbable&#39;, &#39;totalTestEncountersViral&#39;,
+       &#39;totalTestsPeopleViral&#39;, &#39;totalTestsAntibody&#39;, &#39;positiveTestsAntibody&#39;,
+       &#39;negativeTestsAntibody&#39;, &#39;totalTestsPeopleAntibody&#39;,
+       &#39;positiveTestsPeopleAntibody&#39;, &#39;negativeTestsPeopleAntibody&#39;,
+       &#39;totalTestsPeopleAntigen&#39;, &#39;positiveTestsPeopleAntigen&#39;,
+       &#39;totalTestsAntigen&#39;, &#39;positiveTestsAntigen&#39;, &#39;fips&#39;, &#39;positiveIncrease&#39;,
+       &#39;negativeIncrease&#39;, &#39;total&#39;, &#39;totalTestResultsIncrease&#39;, &#39;posNeg&#39;,
+       &#39;deathIncrease&#39;, &#39;hospitalizedIncrease&#39;, &#39;hash&#39;, &#39;commercialScore&#39;,
        &#39;negativeRegularScore&#39;, &#39;negativeScore&#39;, &#39;positiveScore&#39;, &#39;score&#39;,
        &#39;grade&#39;],
       dtype=&#39;object&#39;)</pre>
@@ -15238,8 +15271,11 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>date</th>
       <th>state</th>
       <th>positive</th>
+      <th>probableCases</th>
       <th>negative</th>
       <th>pending</th>
+      <th>totalTestResultsSource</th>
+      <th>totalTestResults</th>
       <th>hospitalizedCurrently</th>
       <th>hospitalizedCumulative</th>
       <th>inIcuCurrently</th>
@@ -15276,8 +15312,6 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>positiveIncrease</th>
       <th>negativeIncrease</th>
       <th>total</th>
-      <th>totalTestResultsSource</th>
-      <th>totalTestResults</th>
       <th>totalTestResultsIncrease</th>
       <th>posNeg</th>
       <th>deathIncrease</th>
@@ -15294,30 +15328,33 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
   <tbody>
     <tr>
       <th>0</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AK</td>
-      <td>7024.0</td>
-      <td>387562.0</td>
-      <td>NaN</td>
-      <td>44.0</td>
+      <td>52150.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>7.0</td>
+      <td>totalTestsViral</td>
+      <td>1479849.0</td>
+      <td>42.0</td>
+      <td>1201.0</td>
       <td>NaN</td>
-      <td>2359.0</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>A</td>
-      <td>9/11/2020 03:59</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>09/10 23:59</td>
-      <td>43.0</td>
+      <td>1/28/2021 03:59</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>01/27 22:59</td>
+      <td>262.0</td>
+      <td>1201.0</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>1479849.0</td>
+      <td>62705.0</td>
+      <td>1415473.0</td>
       <td>NaN</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>394586.0</td>
-      <td>6340.0</td>
-      <td>387966.0</td>
-      <td>7024.0</td>
-      <td>43.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15332,16 +15369,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>2</td>
-      <td>109</td>
-      <td>1400</td>
-      <td>394586</td>
-      <td>posNeg</td>
-      <td>394586.0</td>
-      <td>1509</td>
-      <td>394586</td>
-      <td>1</td>
+      <td>199</td>
       <td>0</td>
-      <td>7362921fa69c20bc82d18bd257382ca0197025c1</td>
+      <td>52150</td>
+      <td>12449</td>
+      <td>52150</td>
+      <td>1</td>
+      <td>1</td>
+      <td>6932258339f816d5d92e6907200e546fb5342eb3</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15351,37 +15386,40 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>1</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AL</td>
-      <td>136703.0</td>
-      <td>874219.0</td>
+      <td>452734.0</td>
+      <td>95263.0</td>
+      <td>1759171.0</td>
       <td>NaN</td>
-      <td>811.0</td>
-      <td>15527.0</td>
+      <td>totalTestsPeopleViral</td>
+      <td>2116642.0</td>
+      <td>2052.0</td>
+      <td>41483.0</td>
       <td>NaN</td>
-      <td>1593.0</td>
+      <td>2533.0</td>
       <td>NaN</td>
-      <td>877.0</td>
-      <td>54223.0</td>
-      <td>B</td>
-      <td>9/11/2020 11:00</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>09/11 07:00</td>
-      <td>2333.0</td>
-      <td>15527.0</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>998316.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>124097.0</td>
-      <td>2204.0</td>
-      <td>129.0</td>
+      <td>1449.0</td>
+      <td>242143.0</td>
+      <td>A</td>
+      <td>1/28/2021 11:00</td>
+      <td>2021-01-28T11:00:00Z</td>
+      <td>01/28 06:00</td>
+      <td>7340.0</td>
+      <td>41483.0</td>
+      <td>2021-01-28T11:00:00Z</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>357471.0</td>
+      <td>5928.0</td>
+      <td>1412.0</td>
+      <td>NaN</td>
+      <td>2116642.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>55157.0</td>
+      <td>NaN</td>
+      <td>103530.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15389,16 +15427,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>1</td>
-      <td>1138</td>
-      <td>4046</td>
-      <td>1010922</td>
-      <td>posNeg</td>
-      <td>1010922.0</td>
-      <td>5184</td>
-      <td>1010922</td>
-      <td>32</td>
-      <td>188</td>
-      <td>49b386097fd3df379e87d6c0cf9d84d574230b36</td>
+      <td>3648</td>
+      <td>8103</td>
+      <td>2211905</td>
+      <td>10607</td>
+      <td>2211905</td>
+      <td>168</td>
+      <td>0</td>
+      <td>29405d617beb57f1ee9b5f00a86aac1008f78acd</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15408,54 +15444,55 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>2</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AR</td>
-      <td>68983.0</td>
-      <td>729375.0</td>
+      <td>290856.0</td>
+      <td>58518.0</td>
+      <td>2161833.0</td>
       <td>NaN</td>
-      <td>392.0</td>
-      <td>4678.0</td>
+      <td>totalTestsViral</td>
+      <td>2394171.0</td>
+      <td>996.0</td>
+      <td>13505.0</td>
+      <td>307.0</td>
       <td>NaN</td>
+      <td>143.0</td>
+      <td>1414.0</td>
+      <td>268495.0</td>
+      <td>A+</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>4784.0</td>
+      <td>13505.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>2394171.0</td>
       <td>NaN</td>
-      <td>76.0</td>
-      <td>597.0</td>
-      <td>61245.0</td>
-      <td>A</td>
-      <td>9/11/2020 14:35</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>09/11 10:35</td>
-      <td>953.0</td>
-      <td>4678.0</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>796179.0</td>
-      <td>NaN</td>
-      <td>729375.0</td>
-      <td>67911.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>2161833.0</td>
+      <td>232338.0</td>
+      <td>3864.0</td>
+      <td>920.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>17549.0</td>
-      <td>2709.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>354207.0</td>
+      <td>68660.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>5</td>
-      <td>1180</td>
-      <td>0</td>
-      <td>798358</td>
-      <td>posNeg</td>
-      <td>798358.0</td>
-      <td>1180</td>
-      <td>798358</td>
-      <td>13</td>
-      <td>72</td>
-      <td>2fee4a33919d59c199473a27dcdfab3551c0b182</td>
+      <td>1892</td>
+      <td>12762</td>
+      <td>2452689</td>
+      <td>14233</td>
+      <td>2452689</td>
+      <td>42</td>
+      <td>58</td>
+      <td>7f491ba52aea5b93016e6ca41059b491f11fc5bf</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15465,10 +15502,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>3</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AS</td>
       <td>0.0</td>
-      <td>1571.0</td>
+      <td>NaN</td>
+      <td>2140.0</td>
+      <td>NaN</td>
+      <td>totalTestsViral</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15477,14 +15518,13 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>C</td>
-      <td>9/1/2020 00:00</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>08/31 20:00</td>
+      <td>12/1/2020 00:00</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>11/30 19:00</td>
       <td>0.0</td>
       <td>NaN</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>1571.0</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>0.0</td>
@@ -15505,14 +15545,12 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>60</td>
       <td>0</td>
       <td>0</td>
-      <td>1571</td>
-      <td>posNeg</td>
-      <td>1571.0</td>
+      <td>2140</td>
       <td>0</td>
-      <td>1571</td>
+      <td>2140</td>
       <td>0</td>
       <td>0</td>
-      <td>af92759401b47f8c1b3777fde5b06c65b773a25a</td>
+      <td>0138eb6fe94624353fb7066d0113058280086d56</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15522,34 +15560,37 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>4</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AZ</td>
-      <td>207523.0</td>
-      <td>1071901.0</td>
+      <td>743232.0</td>
+      <td>46684.0</td>
+      <td>2712847.0</td>
       <td>NaN</td>
-      <td>577.0</td>
-      <td>21747.0</td>
-      <td>171.0</td>
+      <td>totalTestsViral</td>
+      <td>6549568.0</td>
+      <td>4087.0</td>
+      <td>51349.0</td>
+      <td>1023.0</td>
       <td>NaN</td>
-      <td>100.0</td>
+      <td>692.0</td>
       <td>NaN</td>
-      <td>32472.0</td>
+      <td>101104.0</td>
       <td>A+</td>
-      <td>9/11/2020 00:00</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>09/10 20:00</td>
-      <td>5288.0</td>
-      <td>21747.0</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>1277543.0</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>12819.0</td>
+      <td>51349.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>6549568.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>205642.0</td>
-      <td>5014.0</td>
-      <td>274.0</td>
+      <td>696548.0</td>
+      <td>11440.0</td>
+      <td>1379.0</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>275536.0</td>
+      <td>3409395.0</td>
+      <td>415234.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -15560,16 +15601,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>4</td>
-      <td>521</td>
-      <td>6169</td>
-      <td>1279424</td>
-      <td>posNeg</td>
-      <td>1279424.0</td>
-      <td>6690</td>
-      <td>1279424</td>
-      <td>15</td>
-      <td>136</td>
-      <td>e8b36c0e4297a0b87cb0a21840d7fdb9eb5d17dc</td>
+      <td>4671</td>
+      <td>10704</td>
+      <td>3456079</td>
+      <td>45161</td>
+      <td>3456079</td>
+      <td>176</td>
+      <td>312</td>
+      <td>ef4f84f80eb115d6b32a4c6136a6ed1f4a5cf71f</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -15602,10 +15641,10 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;datasets/nst-est2019-01.xlsx&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;datasets/nst-est2019-01.xlsx&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;openpyxl&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15616,7 +15655,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Eliminate unnecessary rows and columns</span>
@@ -15640,7 +15679,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 
 
 
@@ -15707,7 +15746,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Eliminate unnecessary characters</span>
@@ -15728,7 +15767,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 
 
 
@@ -15795,19 +15834,13 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a href="https://worldpopulationreview.com/states/state-abbreviations">https://worldpopulationreview.com/states/state-abbreviations</a></p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Because the states in <em>us_covid_df</em> are represented by 2-letter codes, we will use <a href="https://worldpopulationreview.com/states/state-abbreviations">this dataset</a> to properly format <em>census_df</em>.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">codes_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;datasets/codes_data.csv&#39;</span><span class="p">)</span>
@@ -15821,7 +15854,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">codes_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -15840,7 +15873,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
 
 
@@ -15913,7 +15946,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Merge census_df and codes_df</span>
@@ -15942,7 +15975,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 
 
 
@@ -16009,7 +16042,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Merge pop_df and covid_df</span>
@@ -16030,7 +16063,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 
 
 
@@ -16056,8 +16089,11 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>date</th>
       <th>state</th>
       <th>positive</th>
+      <th>probableCases</th>
       <th>negative</th>
       <th>pending</th>
+      <th>totalTestResultsSource</th>
+      <th>totalTestResults</th>
       <th>hospitalizedCurrently</th>
       <th>hospitalizedCumulative</th>
       <th>inIcuCurrently</th>
@@ -16094,8 +16130,6 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>positiveIncrease</th>
       <th>negativeIncrease</th>
       <th>total</th>
-      <th>totalTestResultsSource</th>
-      <th>totalTestResults</th>
       <th>totalTestResultsIncrease</th>
       <th>posNeg</th>
       <th>deathIncrease</th>
@@ -16113,30 +16147,33 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
   <tbody>
     <tr>
       <th>0</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AK</td>
-      <td>7024.0</td>
-      <td>387562.0</td>
-      <td>NaN</td>
-      <td>44.0</td>
+      <td>52150.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>7.0</td>
+      <td>totalTestsViral</td>
+      <td>1479849.0</td>
+      <td>42.0</td>
+      <td>1201.0</td>
       <td>NaN</td>
-      <td>2359.0</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>A</td>
-      <td>9/11/2020 03:59</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>09/10 23:59</td>
-      <td>43.0</td>
+      <td>1/28/2021 03:59</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>01/27 22:59</td>
+      <td>262.0</td>
+      <td>1201.0</td>
+      <td>2021-01-28T03:59:00Z</td>
+      <td>1479849.0</td>
+      <td>62705.0</td>
+      <td>1415473.0</td>
       <td>NaN</td>
-      <td>2020-09-11T03:59:00Z</td>
-      <td>394586.0</td>
-      <td>6340.0</td>
-      <td>387966.0</td>
-      <td>7024.0</td>
-      <td>43.0</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -16151,16 +16188,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>2</td>
-      <td>109</td>
-      <td>1400</td>
-      <td>394586</td>
-      <td>posNeg</td>
-      <td>394586.0</td>
-      <td>1509</td>
-      <td>394586</td>
-      <td>1</td>
+      <td>199</td>
       <td>0</td>
-      <td>7362921fa69c20bc82d18bd257382ca0197025c1</td>
+      <td>52150</td>
+      <td>12449</td>
+      <td>52150</td>
+      <td>1</td>
+      <td>1</td>
+      <td>6932258339f816d5d92e6907200e546fb5342eb3</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -16171,37 +16206,40 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>1</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AL</td>
-      <td>136703.0</td>
-      <td>874219.0</td>
+      <td>452734.0</td>
+      <td>95263.0</td>
+      <td>1759171.0</td>
       <td>NaN</td>
-      <td>811.0</td>
-      <td>15527.0</td>
+      <td>totalTestsPeopleViral</td>
+      <td>2116642.0</td>
+      <td>2052.0</td>
+      <td>41483.0</td>
       <td>NaN</td>
-      <td>1593.0</td>
+      <td>2533.0</td>
       <td>NaN</td>
-      <td>877.0</td>
-      <td>54223.0</td>
-      <td>B</td>
-      <td>9/11/2020 11:00</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>09/11 07:00</td>
-      <td>2333.0</td>
-      <td>15527.0</td>
-      <td>2020-09-11T11:00:00Z</td>
-      <td>998316.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>124097.0</td>
-      <td>2204.0</td>
-      <td>129.0</td>
+      <td>1449.0</td>
+      <td>242143.0</td>
+      <td>A</td>
+      <td>1/28/2021 11:00</td>
+      <td>2021-01-28T11:00:00Z</td>
+      <td>01/28 06:00</td>
+      <td>7340.0</td>
+      <td>41483.0</td>
+      <td>2021-01-28T11:00:00Z</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>357471.0</td>
+      <td>5928.0</td>
+      <td>1412.0</td>
+      <td>NaN</td>
+      <td>2116642.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>55157.0</td>
+      <td>NaN</td>
+      <td>103530.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -16209,16 +16247,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>1</td>
-      <td>1138</td>
-      <td>4046</td>
-      <td>1010922</td>
-      <td>posNeg</td>
-      <td>1010922.0</td>
-      <td>5184</td>
-      <td>1010922</td>
-      <td>32</td>
-      <td>188</td>
-      <td>49b386097fd3df379e87d6c0cf9d84d574230b36</td>
+      <td>3648</td>
+      <td>8103</td>
+      <td>2211905</td>
+      <td>10607</td>
+      <td>2211905</td>
+      <td>168</td>
+      <td>0</td>
+      <td>29405d617beb57f1ee9b5f00a86aac1008f78acd</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -16229,54 +16265,55 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>2</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AR</td>
-      <td>68983.0</td>
-      <td>729375.0</td>
+      <td>290856.0</td>
+      <td>58518.0</td>
+      <td>2161833.0</td>
       <td>NaN</td>
-      <td>392.0</td>
-      <td>4678.0</td>
+      <td>totalTestsViral</td>
+      <td>2394171.0</td>
+      <td>996.0</td>
+      <td>13505.0</td>
+      <td>307.0</td>
       <td>NaN</td>
+      <td>143.0</td>
+      <td>1414.0</td>
+      <td>268495.0</td>
+      <td>A+</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>4784.0</td>
+      <td>13505.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>2394171.0</td>
       <td>NaN</td>
-      <td>76.0</td>
-      <td>597.0</td>
-      <td>61245.0</td>
-      <td>A</td>
-      <td>9/11/2020 14:35</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>09/11 10:35</td>
-      <td>953.0</td>
-      <td>4678.0</td>
-      <td>2020-09-11T14:35:00Z</td>
-      <td>796179.0</td>
-      <td>NaN</td>
-      <td>729375.0</td>
-      <td>67911.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>2161833.0</td>
+      <td>232338.0</td>
+      <td>3864.0</td>
+      <td>920.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>17549.0</td>
-      <td>2709.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>354207.0</td>
+      <td>68660.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>5</td>
-      <td>1180</td>
-      <td>0</td>
-      <td>798358</td>
-      <td>posNeg</td>
-      <td>798358.0</td>
-      <td>1180</td>
-      <td>798358</td>
-      <td>13</td>
-      <td>72</td>
-      <td>2fee4a33919d59c199473a27dcdfab3551c0b182</td>
+      <td>1892</td>
+      <td>12762</td>
+      <td>2452689</td>
+      <td>14233</td>
+      <td>2452689</td>
+      <td>42</td>
+      <td>58</td>
+      <td>7f491ba52aea5b93016e6ca41059b491f11fc5bf</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -16287,10 +16324,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>3</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AS</td>
       <td>0.0</td>
-      <td>1571.0</td>
+      <td>NaN</td>
+      <td>2140.0</td>
+      <td>NaN</td>
+      <td>totalTestsViral</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -16299,14 +16340,13 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>C</td>
-      <td>9/1/2020 00:00</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>08/31 20:00</td>
+      <td>12/1/2020 00:00</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>11/30 19:00</td>
       <td>0.0</td>
       <td>NaN</td>
-      <td>2020-09-01T00:00:00Z</td>
-      <td>1571.0</td>
+      <td>2020-12-01T00:00:00Z</td>
+      <td>2140.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>0.0</td>
@@ -16327,14 +16367,12 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>60</td>
       <td>0</td>
       <td>0</td>
-      <td>1571</td>
-      <td>posNeg</td>
-      <td>1571.0</td>
+      <td>2140</td>
       <td>0</td>
-      <td>1571</td>
+      <td>2140</td>
       <td>0</td>
       <td>0</td>
-      <td>af92759401b47f8c1b3777fde5b06c65b773a25a</td>
+      <td>0138eb6fe94624353fb7066d0113058280086d56</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -16345,34 +16383,37 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     </tr>
     <tr>
       <th>4</th>
-      <td>2020-09-11</td>
+      <td>2021-01-28</td>
       <td>AZ</td>
-      <td>207523.0</td>
-      <td>1071901.0</td>
+      <td>743232.0</td>
+      <td>46684.0</td>
+      <td>2712847.0</td>
       <td>NaN</td>
-      <td>577.0</td>
-      <td>21747.0</td>
-      <td>171.0</td>
+      <td>totalTestsViral</td>
+      <td>6549568.0</td>
+      <td>4087.0</td>
+      <td>51349.0</td>
+      <td>1023.0</td>
       <td>NaN</td>
-      <td>100.0</td>
+      <td>692.0</td>
       <td>NaN</td>
-      <td>32472.0</td>
+      <td>101104.0</td>
       <td>A+</td>
-      <td>9/11/2020 00:00</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>09/10 20:00</td>
-      <td>5288.0</td>
-      <td>21747.0</td>
-      <td>2020-09-11T00:00:00Z</td>
-      <td>1277543.0</td>
+      <td>1/28/2021 00:00</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>01/27 19:00</td>
+      <td>12819.0</td>
+      <td>51349.0</td>
+      <td>2021-01-28T00:00:00Z</td>
+      <td>6549568.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>205642.0</td>
-      <td>5014.0</td>
-      <td>274.0</td>
+      <td>696548.0</td>
+      <td>11440.0</td>
+      <td>1379.0</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>275536.0</td>
+      <td>3409395.0</td>
+      <td>415234.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -16383,16 +16424,14 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>NaN</td>
       <td>NaN</td>
       <td>4</td>
-      <td>521</td>
-      <td>6169</td>
-      <td>1279424</td>
-      <td>posNeg</td>
-      <td>1279424.0</td>
-      <td>6690</td>
-      <td>1279424</td>
-      <td>15</td>
-      <td>136</td>
-      <td>e8b36c0e4297a0b87cb0a21840d7fdb9eb5d17dc</td>
+      <td>4671</td>
+      <td>10704</td>
+      <td>3456079</td>
+      <td>45161</td>
+      <td>3456079</td>
+      <td>176</td>
+      <td>312</td>
+      <td>ef4f84f80eb115d6b32a4c6136a6ed1f4a5cf71f</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -16415,7 +16454,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create column &#39;hosp_curr_100000&#39; with the rate of hospitalizations per 100000 residents in each State.</span>
@@ -16441,7 +16480,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;shapefiles/states_21basic/states.shp&#39;</span>
@@ -16462,7 +16501,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">us_geom_df</span> <span class="o">=</span> <span class="n">us_geom_df</span><span class="p">[</span><span class="n">us_geom_df</span><span class="p">[</span><span class="s1">&#39;STATE_ABBR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;AK&#39;</span><span class="p">,</span> <span class="s1">&#39;HI&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span>
@@ -16482,13 +16521,13 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fd2e748ce10&gt;</pre>
+<pre>&lt;AxesSubplot:&gt;</pre>
 </div>
 
 </div>
@@ -16502,7 +16541,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 
 
 <div class="jp-RenderedImage jp-OutputArea-output ">
-<img src="data:image/png;base64,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8kBbKOSxsoxql4UXHrkauzlUhegLBPndsU5+uKOZP57qAUI9LP/1resZDk/2PfyDPfMeryLfzN/fvYb11U7Vz2VRsY1/fet6lpfZWVZij6rNUl9k4xsPbOQDP9wb0z79QclzB9u4f7P2VJ1JYgmhlANPhOPgCvATKeVzQoijwJNCiC8C+4D/TKGdGjnCrWvK+de3rudL/3ts1gKWrfUFbKiZfaT+D3evYeRHvozqoLf2j7O2ysm5nlFqCqzcub6CpVFCGwadwi2ry7lldTmdQ24OtQxiMeow6BR+uOM8f3vHar5412p+svsCB1tmxprfvrWGgy2DDLl9cY2A46EozxRTq7NbVpexrDSPk52xKU7+bG+r5sAzjEhnk9nGxka5e/futB1PI3P86XQPH35yf1T98r+5fSXvu7J+zu2DQckD//FGRp341x/YQEOpgyWleUnv66XjwHGfJQAAC51JREFUXfz3603svzBA35iPojwjfaNenFYjez57I595+jB7z/dz+9py7t5UpYrKZCIMjvu49V//GHPmyu7P3hg1jKShLkKIPVLKxunLtUpMjZRwxZIidn7mBv797Rsptl/8gpc6TFwfQwm2ogj++/1b2bakMJVmzsoHrllMtcuqivMGcFgMXLu8hEduWs6iYhuvP3oDT7xvC6sqHAgh+Ie71/C5O1bywx3N3Pet1yfzwtNNvsXAP927lvJ8c0zr/3xvS4ot0pgLbQSukXICQcmnf3aQX+xv5bvv2cKVS+duHhHJhb4xrvrKSym0biZb6gr4wYNbMerVH98Eg5IRrx+H2YDHH2DE7acwYgT7xtle9jb3c8/GKkocsTnRVHHvt/7Erqa55zMqnRZ+89GryDNryoSpRBuBa2QMnSL4p3vXcfBzN8flvCFUILSqIn26G1UuC39756qUOG8IPVk4ws7OpNdNcd4QKtP/i2uXZNx5A3winL0yF60D4/zqcEcarNGIhubANdKGxaibf6UovHfb3PHyRMgz6THqlEmlvxXlDt55WS3P/uWVrMigUFNk0U6mqYqx0vJgywBun5ZSmAk0OVmNrOeW1WX8+8unOdudWFPgaLzr8loK80xIGdLQvn9zjdagYBrWGG8mPcNefrjjPO+/clGKLdKYjjYC18h68kx6Vdt3FdqM/GhnM1vrC3jftnr+z1WLNOcdhVgzUU53jzDuDeD1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
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -16537,7 +16576,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">prepper</span> <span class="o">=</span> <span class="n">DataFramePrepper</span><span class="p">(</span><span class="n">info_df</span><span class="o">=</span><span class="n">us_covid_df</span><span class="p">,</span> <span class="n">geom_df</span><span class="o">=</span><span class="n">us_geom_df</span><span class="p">)</span>
@@ -16551,7 +16590,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Prepare the informational DataFrame by selecting the columns to focus on. </span>
@@ -16581,7 +16620,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 
 
 
@@ -16605,6 +16644,15 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
     <tr style="text-align: right;">
       <th></th>
       <th>geometry</th>
+      <th>2020-01-13</th>
+      <th>2020-01-14</th>
+      <th>2020-01-15</th>
+      <th>2020-01-16</th>
+      <th>2020-01-17</th>
+      <th>2020-01-18</th>
+      <th>2020-01-19</th>
+      <th>2020-01-20</th>
+      <th>2020-01-21</th>
       <th>2020-01-22</th>
       <th>2020-01-23</th>
       <th>2020-01-24</th>
@@ -16839,9 +16887,296 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <th>2020-09-09</th>
       <th>2020-09-10</th>
       <th>2020-09-11</th>
+      <th>2020-09-12</th>
+      <th>2020-09-13</th>
+      <th>2020-09-14</th>
+      <th>2020-09-15</th>
+      <th>2020-09-16</th>
+      <th>2020-09-17</th>
+      <th>2020-09-18</th>
+      <th>2020-09-19</th>
+      <th>2020-09-20</th>
+      <th>2020-09-21</th>
+      <th>2020-09-22</th>
+      <th>2020-09-23</th>
+      <th>2020-09-24</th>
+      <th>2020-09-25</th>
+      <th>2020-09-26</th>
+      <th>2020-09-27</th>
+      <th>2020-09-28</th>
+      <th>2020-09-29</th>
+      <th>2020-09-30</th>
+      <th>2020-10-01</th>
+      <th>2020-10-02</th>
+      <th>2020-10-03</th>
+      <th>2020-10-04</th>
+      <th>2020-10-05</th>
+      <th>2020-10-06</th>
+      <th>2020-10-07</th>
+      <th>2020-10-08</th>
+      <th>2020-10-09</th>
+      <th>2020-10-10</th>
+      <th>2020-10-11</th>
+      <th>2020-10-12</th>
+      <th>2020-10-13</th>
+      <th>2020-10-14</th>
+      <th>2020-10-15</th>
+      <th>2020-10-16</th>
+      <th>2020-10-17</th>
+      <th>2020-10-18</th>
+      <th>2020-10-19</th>
+      <th>2020-10-20</th>
+      <th>2020-10-21</th>
+      <th>2020-10-22</th>
+      <th>2020-10-23</th>
+      <th>2020-10-24</th>
+      <th>2020-10-25</th>
+      <th>2020-10-26</th>
+      <th>2020-10-27</th>
+      <th>2020-10-28</th>
+      <th>2020-10-29</th>
+      <th>2020-10-30</th>
+      <th>2020-10-31</th>
+      <th>2020-11-01</th>
+      <th>2020-11-02</th>
+      <th>2020-11-03</th>
+      <th>2020-11-04</th>
+      <th>2020-11-05</th>
+      <th>2020-11-06</th>
+      <th>2020-11-07</th>
+      <th>2020-11-08</th>
+      <th>2020-11-09</th>
+      <th>2020-11-10</th>
+      <th>2020-11-11</th>
+      <th>2020-11-12</th>
+      <th>2020-11-13</th>
+      <th>2020-11-14</th>
+      <th>2020-11-15</th>
+      <th>2020-11-16</th>
+      <th>2020-11-17</th>
+      <th>2020-11-18</th>
+      <th>2020-11-19</th>
+      <th>2020-11-20</th>
+      <th>2020-11-21</th>
+      <th>2020-11-22</th>
+      <th>2020-11-23</th>
+      <th>2020-11-24</th>
+      <th>2020-11-25</th>
+      <th>2020-11-26</th>
+      <th>2020-11-27</th>
+      <th>2020-11-28</th>
+      <th>2020-11-29</th>
+      <th>2020-11-30</th>
+      <th>2020-12-01</th>
+      <th>2020-12-02</th>
+      <th>2020-12-03</th>
+      <th>2020-12-04</th>
+      <th>2020-12-05</th>
+      <th>2020-12-06</th>
+      <th>2020-12-07</th>
+      <th>2020-12-08</th>
+      <th>2020-12-09</th>
+      <th>2020-12-10</th>
+      <th>2020-12-11</th>
+      <th>2020-12-12</th>
+      <th>2020-12-13</th>
+      <th>2020-12-14</th>
+      <th>2020-12-15</th>
+      <th>2020-12-16</th>
+      <th>2020-12-17</th>
+      <th>2020-12-18</th>
+      <th>2020-12-19</th>
+      <th>2020-12-20</th>
+      <th>2020-12-21</th>
+      <th>2020-12-22</th>
+      <th>2020-12-23</th>
+      <th>2020-12-24</th>
+      <th>2020-12-25</th>
+      <th>2020-12-26</th>
+      <th>2020-12-27</th>
+      <th>2020-12-28</th>
+      <th>2020-12-29</th>
+      <th>2020-12-30</th>
+      <th>2020-12-31</th>
+      <th>2021-01-01</th>
+      <th>2021-01-02</th>
+      <th>2021-01-03</th>
+      <th>2021-01-04</th>
+      <th>2021-01-05</th>
+      <th>2021-01-06</th>
+      <th>2021-01-07</th>
+      <th>2021-01-08</th>
+      <th>2021-01-09</th>
+      <th>2021-01-10</th>
+      <th>2021-01-11</th>
+      <th>2021-01-12</th>
+      <th>2021-01-13</th>
+      <th>2021-01-14</th>
+      <th>2021-01-15</th>
+      <th>2021-01-16</th>
+      <th>2021-01-17</th>
+      <th>2021-01-18</th>
+      <th>2021-01-19</th>
+      <th>2021-01-20</th>
+      <th>2021-01-21</th>
+      <th>2021-01-22</th>
+      <th>2021-01-23</th>
+      <th>2021-01-24</th>
+      <th>2021-01-25</th>
+      <th>2021-01-26</th>
+      <th>2021-01-27</th>
+      <th>2021-01-28</th>
     </tr>
     <tr>
       <th>location</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -17162,6 +17497,15 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>8.218857</td>
       <td>8.359558</td>
       <td>8.473996</td>
@@ -17195,132 +17539,280 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>4.547480</td>
       <td>4.710694</td>
       <td>4.765098</td>
-      <td>4.753842</td>
+      <td>5.087774</td>
+      <td>5.626193</td>
+      <td>6.063306</td>
+      <td>6.569832</td>
+      <td>7.031334</td>
+      <td>7.421547</td>
+      <td>7.830520</td>
+      <td>7.721711</td>
+      <td>7.483456</td>
+      <td>7.382150</td>
+      <td>7.175788</td>
+      <td>7.136391</td>
+      <td>7.095119</td>
+      <td>7.038838</td>
+      <td>7.070731</td>
+      <td>7.081987</td>
+      <td>7.035086</td>
+      <td>7.012574</td>
+      <td>6.967549</td>
+      <td>6.894384</td>
+      <td>6.826848</td>
+      <td>6.738675</td>
+      <td>6.663634</td>
+      <td>6.611105</td>
+      <td>6.494792</td>
+      <td>6.325950</td>
+      <td>6.050174</td>
+      <td>5.860696</td>
+      <td>5.628069</td>
+      <td>5.440467</td>
+      <td>5.190956</td>
+      <td>4.990221</td>
+      <td>4.810123</td>
+      <td>4.823255</td>
       <td>4.766974</td>
-      <td>4.731330</td>
-      <td>4.615017</td>
-      <td>4.301721</td>
-      <td>3.960285</td>
-      <td>3.673253</td>
-      <td>3.268032</td>
-      <td>3.037281</td>
-      <td>2.958488</td>
-      <td>2.960364</td>
-      <td>3.232388</td>
-      <td>3.305552</td>
-      <td>3.491279</td>
-      <td>3.628228</td>
-      <td>3.783938</td>
-      <td>3.755798</td>
-      <td>3.731410</td>
-      <td>3.643237</td>
-      <td>3.714526</td>
-      <td>3.648865</td>
-      <td>3.690137</td>
-      <td>3.590708</td>
-      <td>3.530675</td>
-      <td>3.395602</td>
-      <td>3.281164</td>
-      <td>3.221131</td>
-      <td>3.170479</td>
-      <td>3.123578</td>
-      <td>3.037281</td>
-      <td>2.926596</td>
-      <td>2.885323</td>
-      <td>2.930348</td>
-      <td>2.900332</td>
-      <td>2.956612</td>
-      <td>2.990381</td>
-      <td>3.059793</td>
-      <td>3.153595</td>
-      <td>3.191115</td>
-      <td>3.262404</td>
-      <td>3.277412</td>
-      <td>3.219255</td>
-      <td>3.177983</td>
-      <td>3.254900</td>
-      <td>3.247396</td>
-      <td>3.359957</td>
-      <td>3.429370</td>
-      <td>3.551312</td>
-      <td>3.697641</td>
-      <td>3.798947</td>
-      <td>3.812079</td>
-      <td>3.928392</td>
-      <td>3.947152</td>
-      <td>3.949028</td>
-      <td>3.907756</td>
-      <td>3.795194</td>
-      <td>3.851475</td>
-      <td>3.885244</td>
-      <td>3.870235</td>
-      <td>3.890872</td>
-      <td>3.930268</td>
-      <td>4.085978</td>
-      <td>4.292341</td>
-      <td>4.358001</td>
-      <td>4.438670</td>
-      <td>4.538100</td>
-      <td>4.579372</td>
-      <td>4.650661</td>
-      <td>4.693810</td>
-      <td>4.755718</td>
-      <td>4.828883</td>
-      <td>4.853271</td>
-      <td>4.866404</td>
-      <td>4.977089</td>
-      <td>5.057758</td>
-      <td>5.136551</td>
-      <td>5.175947</td>
-      <td>5.204088</td>
-      <td>5.230352</td>
-      <td>5.284757</td>
-      <td>5.299765</td>
-      <td>5.299765</td>
-      <td>5.309145</td>
-      <td>5.337285</td>
-      <td>5.369178</td>
-      <td>5.419830</td>
-      <td>5.401070</td>
-      <td>5.401070</td>
-      <td>5.387938</td>
-      <td>5.389814</td>
+      <td>4.783859</td>
+      <td>4.763222</td>
+      <td>4.781983</td>
+      <td>4.757594</td>
+      <td>4.796991</td>
+      <td>4.806371</td>
+      <td>4.862652</td>
+      <td>4.913304</td>
+      <td>4.967709</td>
+      <td>4.922684</td>
+      <td>4.973337</td>
+      <td>5.027742</td>
+      <td>5.074642</td>
+      <td>5.117791</td>
+      <td>5.194708</td>
+      <td>5.247236</td>
+      <td>5.412326</td>
+      <td>5.524888</td>
+      <td>5.547400</td>
+      <td>5.568036</td>
+      <td>5.590548</td>
+      <td>5.586796</td>
+      <td>5.658085</td>
+      <td>5.658085</td>
+      <td>5.659961</td>
+      <td>5.725622</td>
+      <td>5.810043</td>
+      <td>5.881332</td>
+      <td>6.016406</td>
+      <td>6.127091</td>
+      <td>6.269669</td>
+      <td>6.414123</td>
+      <td>6.577337</td>
+      <td>6.704906</td>
+      <td>6.796831</td>
+      <td>6.888756</td>
+      <td>6.888756</td>
+      <td>6.853112</td>
+      <td>6.845608</td>
+      <td>6.770567</td>
+      <td>6.714286</td>
+      <td>6.684270</td>
+      <td>6.614857</td>
+      <td>6.620485</td>
+      <td>6.637369</td>
+      <td>6.659882</td>
+      <td>6.727418</td>
+      <td>6.785575</td>
+      <td>6.860616</td>
+      <td>6.890632</td>
+      <td>6.868120</td>
+      <td>6.828724</td>
+      <td>6.864368</td>
+      <td>6.866244</td>
+      <td>6.903765</td>
+      <td>6.860616</td>
+      <td>6.776195</td>
+      <td>6.766815</td>
+      <td>6.793079</td>
+      <td>6.751807</td>
+      <td>6.701154</td>
+      <td>6.616733</td>
+      <td>6.579213</td>
+      <td>6.581089</td>
+      <td>6.552948</td>
+      <td>6.481659</td>
+      <td>6.369098</td>
+      <td>6.277173</td>
+      <td>6.215264</td>
+      <td>6.113959</td>
+      <td>6.038918</td>
+      <td>5.965753</td>
+      <td>5.894464</td>
+      <td>5.811919</td>
+      <td>5.736878</td>
+      <td>5.656209</td>
+      <td>5.601805</td>
+      <td>5.554904</td>
+      <td>5.459227</td>
+      <td>5.376682</td>
       <td>5.361674</td>
-      <td>5.284757</td>
-      <td>5.226600</td>
-      <td>5.222848</td>
+      <td>5.339161</td>
+      <td>5.288509</td>
+      <td>5.258492</td>
+      <td>5.149683</td>
+      <td>5.100906</td>
+      <td>5.087774</td>
+      <td>5.025866</td>
+      <td>4.965833</td>
+      <td>4.967709</td>
+      <td>4.915180</td>
+      <td>4.913304</td>
+      <td>4.909552</td>
+      <td>4.885164</td>
+      <td>4.905800</td>
+      <td>4.922684</td>
+      <td>4.907676</td>
+      <td>5.168443</td>
       <td>5.175947</td>
-      <td>5.166567</td>
-      <td>5.145931</td>
-      <td>5.160939</td>
-      <td>5.145931</td>
-      <td>5.127171</td>
-      <td>5.072766</td>
-      <td>5.037122</td>
-      <td>4.992097</td>
-      <td>4.958329</td>
-      <td>4.883288</td>
-      <td>4.851395</td>
-      <td>4.787611</td>
-      <td>4.736958</td>
-      <td>4.690057</td>
-      <td>4.631901</td>
-      <td>4.569992</td>
-      <td>4.526843</td>
-      <td>4.470563</td>
-      <td>4.395522</td>
-      <td>4.324233</td>
-      <td>4.224804</td>
-      <td>4.115994</td>
-      <td>3.997805</td>
-      <td>3.896500</td>
-      <td>3.825211</td>
-      <td>3.774558</td>
-      <td>3.699517</td>
+      <td>5.183452</td>
+      <td>5.224724</td>
+      <td>5.202212</td>
+      <td>5.230352</td>
+      <td>5.189080</td>
+      <td>4.954577</td>
+      <td>4.997725</td>
+      <td>5.046502</td>
+      <td>4.990221</td>
+      <td>4.948949</td>
+      <td>4.902048</td>
+      <td>4.924560</td>
+      <td>4.896420</td>
+      <td>4.842015</td>
+      <td>4.791363</td>
+      <td>4.765098</td>
+      <td>4.770726</td>
+      <td>4.776355</td>
+      <td>4.748214</td>
+      <td>4.802619</td>
+      <td>4.825131</td>
+      <td>4.806371</td>
+      <td>4.842015</td>
+      <td>4.902048</td>
+      <td>4.907676</td>
+      <td>4.975213</td>
+      <td>5.005229</td>
+      <td>5.093402</td>
+      <td>5.157187</td>
+      <td>5.271625</td>
+      <td>5.301641</td>
+      <td>5.356046</td>
+      <td>5.357922</td>
+      <td>5.414202</td>
+      <td>5.419830</td>
+      <td>5.455475</td>
+      <td>5.447971</td>
+      <td>5.519260</td>
+      <td>5.641201</td>
+      <td>5.781903</td>
+      <td>5.873828</td>
+      <td>5.992017</td>
+      <td>6.085819</td>
+      <td>6.196504</td>
+      <td>6.309065</td>
+      <td>6.372850</td>
+      <td>6.489164</td>
+      <td>6.612981</td>
+      <td>6.817468</td>
+      <td>7.102623</td>
+      <td>7.404663</td>
+      <td>7.757355</td>
+      <td>8.046263</td>
+      <td>8.337046</td>
+      <td>8.655970</td>
+      <td>8.935497</td>
+      <td>9.160620</td>
+      <td>9.518941</td>
+      <td>9.852873</td>
+      <td>10.282482</td>
+      <td>10.680199</td>
+      <td>11.031015</td>
+      <td>11.394964</td>
+      <td>11.880854</td>
+      <td>12.177265</td>
+      <td>12.391132</td>
+      <td>12.571230</td>
+      <td>12.751328</td>
+      <td>12.955815</td>
+      <td>13.227838</td>
+      <td>13.370416</td>
+      <td>13.548638</td>
+      <td>13.753124</td>
+      <td>13.970743</td>
+      <td>14.177106</td>
+      <td>14.347824</td>
+      <td>14.417237</td>
+      <td>14.593583</td>
+      <td>14.723028</td>
+      <td>14.799945</td>
+      <td>14.876862</td>
+      <td>14.953779</td>
+      <td>15.047580</td>
+      <td>15.173274</td>
+      <td>15.278331</td>
+      <td>15.400273</td>
+      <td>15.465933</td>
+      <td>15.531594</td>
+      <td>15.597255</td>
+      <td>15.715445</td>
+      <td>14.951903</td>
+      <td>14.893746</td>
+      <td>14.835590</td>
+      <td>14.882490</td>
+      <td>14.929391</td>
+      <td>14.976291</td>
+      <td>15.113241</td>
+      <td>15.914303</td>
+      <td>15.700436</td>
+      <td>15.584123</td>
+      <td>15.467809</td>
+      <td>15.351496</td>
+      <td>15.235183</td>
+      <td>14.929391</td>
+      <td>14.865606</td>
+      <td>14.998804</td>
+      <td>15.109489</td>
+      <td>15.182654</td>
+      <td>15.255819</td>
+      <td>15.328984</td>
+      <td>15.248315</td>
+      <td>15.077597</td>
+      <td>14.935019</td>
+      <td>14.762425</td>
+      <td>14.554186</td>
+      <td>14.345948</td>
+      <td>14.137709</td>
+      <td>14.122701</td>
+      <td>14.002636</td>
+      <td>13.803777</td>
+      <td>13.629307</td>
+      <td>13.347904</td>
+      <td>13.066500</td>
+      <td>12.785097</td>
+      <td>12.372372</td>
+      <td>12.104100</td>
+      <td>11.815193</td>
     </tr>
     <tr>
       <th>MT</th>
       <td>POLYGON ((-111.47543 44.70216, -111.48080 44.6...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -17555,10 +18047,158 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>14.636208</td>
       <td>14.796605</td>
       <td>14.689674</td>
+      <td>14.596109</td>
+      <td>14.449078</td>
+      <td>14.195117</td>
+      <td>13.500064</td>
+      <td>12.738179</td>
+      <td>11.989661</td>
+      <td>11.495104</td>
+      <td>10.960448</td>
+      <td>10.412426</td>
+      <td>9.931235</td>
+      <td>9.957968</td>
+      <td>10.198563</td>
+      <td>10.479258</td>
+      <td>10.947082</td>
+      <td>11.521837</td>
+      <td>12.109958</td>
+      <td>12.778278</td>
+      <td>13.513430</td>
+      <td>14.128285</td>
+      <td>14.796605</td>
+      <td>15.291162</td>
+      <td>15.852550</td>
+      <td>16.427306</td>
+      <td>17.002061</td>
+      <td>17.670381</td>
+      <td>18.539197</td>
+      <td>19.675341</td>
+      <td>20.864950</td>
+      <td>22.081293</td>
+      <td>23.351101</td>
+      <td>24.554077</td>
+      <td>25.596656</td>
+      <td>26.358541</td>
+      <td>26.866464</td>
+      <td>27.574883</td>
+      <td>28.163005</td>
+      <td>28.764493</td>
+      <td>29.406080</td>
+      <td>30.288262</td>
+      <td>30.996682</td>
+      <td>31.691734</td>
+      <td>32.119459</td>
+      <td>32.440253</td>
+      <td>32.787779</td>
+      <td>33.068474</td>
+      <td>32.934810</td>
+      <td>33.322435</td>
+      <td>33.589763</td>
+      <td>33.669962</td>
+      <td>33.950656</td>
+      <td>34.204618</td>
+      <td>34.552144</td>
+      <td>35.073434</td>
+      <td>35.514525</td>
+      <td>36.062547</td>
+      <td>37.131859</td>
+      <td>38.161072</td>
+      <td>39.257117</td>
+      <td>40.379894</td>
+      <td>41.689802</td>
+      <td>42.932877</td>
+      <td>44.069021</td>
+      <td>44.804173</td>
+      <td>44.657142</td>
+      <td>44.349715</td>
+      <td>44.122486</td>
+      <td>43.708128</td>
+      <td>43.213571</td>
+      <td>42.986342</td>
+      <td>43.173472</td>
+      <td>43.694762</td>
+      <td>44.256150</td>
+      <td>44.443280</td>
+      <td>44.590310</td>
+      <td>44.576944</td>
+      <td>44.216051</td>
+      <td>43.494266</td>
+      <td>43.320502</td>
+      <td>43.106640</td>
+      <td>43.240304</td>
+      <td>43.614563</td>
+      <td>43.828426</td>
+      <td>44.082387</td>
+      <td>44.496746</td>
+      <td>44.563578</td>
+      <td>44.750707</td>
+      <td>44.951203</td>
+      <td>44.737341</td>
+      <td>44.897738</td>
+      <td>45.084867</td>
+      <td>43.601197</td>
+      <td>42.251190</td>
+      <td>40.780886</td>
+      <td>38.882858</td>
+      <td>36.998195</td>
+      <td>34.605610</td>
+      <td>32.172925</td>
+      <td>30.876384</td>
+      <td>29.566477</td>
+      <td>28.136272</td>
+      <td>26.839731</td>
+      <td>25.703587</td>
+      <td>24.901603</td>
+      <td>24.032787</td>
+      <td>23.578330</td>
+      <td>22.896643</td>
+      <td>22.121392</td>
+      <td>21.586736</td>
+      <td>21.118912</td>
+      <td>20.744653</td>
+      <td>20.236730</td>
+      <td>19.728806</td>
+      <td>19.434746</td>
+      <td>19.327814</td>
+      <td>19.033754</td>
+      <td>18.953555</td>
+      <td>18.900090</td>
+      <td>18.966922</td>
+      <td>18.993654</td>
+      <td>19.127318</td>
+      <td>19.247616</td>
+      <td>19.461478</td>
+      <td>19.127318</td>
+      <td>18.859990</td>
+      <td>18.646128</td>
+      <td>18.418899</td>
+      <td>18.231770</td>
+      <td>17.844144</td>
+      <td>17.336221</td>
+      <td>17.015427</td>
+      <td>16.480771</td>
+      <td>15.745619</td>
+      <td>15.077299</td>
+      <td>14.422346</td>
+      <td>13.927789</td>
+      <td>13.393133</td>
+      <td>12.925309</td>
+      <td>12.377286</td>
+      <td>12.069859</td>
     </tr>
     <tr>
       <th>ME</th>
       <td>MULTIPOLYGON (((-69.77728 44.07415, -69.85993 ...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -17793,10 +18433,158 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>0.563261</td>
       <td>0.584517</td>
       <td>0.595144</td>
+      <td>0.648282</td>
+      <td>0.701420</td>
+      <td>0.712048</td>
+      <td>0.743930</td>
+      <td>0.754558</td>
+      <td>0.765185</td>
+      <td>0.775813</td>
+      <td>0.818323</td>
+      <td>0.871461</td>
+      <td>0.956482</td>
+      <td>1.030875</td>
+      <td>1.073385</td>
+      <td>1.094640</td>
+      <td>1.084013</td>
+      <td>1.020247</td>
+      <td>0.967109</td>
+      <td>0.871461</td>
+      <td>0.775813</td>
+      <td>0.765185</td>
+      <td>0.743930</td>
+      <td>0.754558</td>
+      <td>0.786441</td>
+      <td>0.786441</td>
+      <td>0.807696</td>
+      <td>0.797068</td>
+      <td>0.754558</td>
+      <td>0.701420</td>
+      <td>0.658910</td>
+      <td>0.616399</td>
+      <td>0.573889</td>
+      <td>0.542006</td>
+      <td>0.552634</td>
+      <td>0.542006</td>
+      <td>0.584517</td>
+      <td>0.627027</td>
+      <td>0.669537</td>
+      <td>0.712048</td>
+      <td>0.722675</td>
+      <td>0.733303</td>
+      <td>0.722675</td>
+      <td>0.680165</td>
+      <td>0.648282</td>
+      <td>0.616399</td>
+      <td>0.584517</td>
+      <td>0.637655</td>
+      <td>0.669537</td>
+      <td>0.765185</td>
+      <td>0.850206</td>
+      <td>0.945854</td>
+      <td>1.041502</td>
+      <td>1.137151</td>
+      <td>1.307192</td>
+      <td>1.509116</td>
+      <td>1.721667</td>
+      <td>1.966101</td>
+      <td>2.178653</td>
+      <td>2.444342</td>
+      <td>2.773797</td>
+      <td>2.986349</td>
+      <td>3.177645</td>
+      <td>3.315804</td>
+      <td>3.570865</td>
+      <td>3.879065</td>
+      <td>4.144754</td>
+      <td>4.346678</td>
+      <td>4.559230</td>
+      <td>4.814292</td>
+      <td>5.196884</td>
+      <td>5.473201</td>
+      <td>5.728263</td>
+      <td>5.930187</td>
+      <td>6.217132</td>
+      <td>6.578469</td>
+      <td>6.918552</td>
+      <td>7.131103</td>
+      <td>7.311772</td>
+      <td>7.619972</td>
+      <td>8.034447</td>
+      <td>8.363902</td>
+      <td>8.746494</td>
+      <td>9.107832</td>
+      <td>9.458542</td>
+      <td>9.809252</td>
+      <td>10.287493</td>
+      <td>10.701968</td>
+      <td>11.116444</td>
+      <td>11.445899</td>
+      <td>11.775353</td>
+      <td>12.147319</td>
+      <td>12.508656</td>
+      <td>12.699953</td>
+      <td>12.891249</td>
+      <td>13.008152</td>
+      <td>13.305724</td>
+      <td>13.571414</td>
+      <td>13.720200</td>
+      <td>13.922124</td>
+      <td>14.017772</td>
+      <td>14.113420</td>
+      <td>13.975262</td>
+      <td>13.677689</td>
+      <td>13.571414</td>
+      <td>13.571414</td>
+      <td>13.528903</td>
+      <td>13.486393</td>
+      <td>13.401372</td>
+      <td>13.624552</td>
+      <td>13.741455</td>
+      <td>13.698945</td>
+      <td>13.592669</td>
+      <td>13.486393</td>
+      <td>13.433255</td>
+      <td>13.486393</td>
+      <td>13.454510</td>
+      <td>13.443883</td>
+      <td>13.550159</td>
+      <td>13.698945</td>
+      <td>13.964634</td>
+      <td>14.209068</td>
+      <td>14.389737</td>
+      <td>14.506640</td>
+      <td>14.612916</td>
+      <td>14.740447</td>
+      <td>14.910488</td>
+      <td>14.814840</td>
+      <td>14.687309</td>
+      <td>14.570406</td>
+      <td>14.719192</td>
+      <td>14.761702</td>
+      <td>14.634171</td>
+      <td>14.538523</td>
+      <td>14.421620</td>
+      <td>14.389737</td>
+      <td>14.294089</td>
+      <td>14.124048</td>
+      <td>14.113420</td>
+      <td>14.145303</td>
+      <td>13.985889</td>
+      <td>13.868986</td>
     </tr>
     <tr>
       <th>ND</th>
       <td>POLYGON ((-98.73044 45.93827, -99.00683 45.939...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -18031,10 +18819,158 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>8.117075</td>
       <td>8.323282</td>
       <td>8.267044</td>
+      <td>8.060836</td>
+      <td>8.023344</td>
+      <td>7.967106</td>
+      <td>7.948360</td>
+      <td>8.117075</td>
+      <td>8.248298</td>
+      <td>8.491997</td>
+      <td>8.904412</td>
+      <td>9.260589</td>
+      <td>9.673004</td>
+      <td>10.235388</td>
+      <td>10.741533</td>
+      <td>11.116456</td>
+      <td>11.341409</td>
+      <td>11.828809</td>
+      <td>12.110001</td>
+      <td>12.447431</td>
+      <td>12.691131</td>
+      <td>12.691131</td>
+      <td>13.009815</td>
+      <td>13.422230</td>
+      <td>13.347245</td>
+      <td>13.422230</td>
+      <td>13.553453</td>
+      <td>13.759660</td>
+      <td>14.265806</td>
+      <td>16.290388</td>
+      <td>17.996286</td>
+      <td>20.227076</td>
+      <td>22.682819</td>
+      <td>24.951101</td>
+      <td>26.638253</td>
+      <td>28.325404</td>
+      <td>28.194181</td>
+      <td>28.475373</td>
+      <td>28.437881</td>
+      <td>28.044212</td>
+      <td>27.519321</td>
+      <td>27.575559</td>
+      <td>27.819259</td>
+      <td>29.112742</td>
+      <td>30.331240</td>
+      <td>31.474754</td>
+      <td>32.637015</td>
+      <td>33.593067</td>
+      <td>34.980281</td>
+      <td>36.198779</td>
+      <td>36.404987</td>
+      <td>36.629940</td>
+      <td>37.211071</td>
+      <td>37.323547</td>
+      <td>37.660978</td>
+      <td>38.635777</td>
+      <td>39.910513</td>
+      <td>41.391458</td>
+      <td>42.909894</td>
+      <td>44.128393</td>
+      <td>46.565390</td>
+      <td>48.608718</td>
+      <td>49.508533</td>
+      <td>50.614554</td>
+      <td>51.233177</td>
+      <td>52.095499</td>
+      <td>53.051551</td>
+      <td>52.901582</td>
+      <td>53.220267</td>
+      <td>53.520205</td>
+      <td>53.014059</td>
+      <td>52.789106</td>
+      <td>52.301706</td>
+      <td>51.383146</td>
+      <td>50.989477</td>
+      <td>50.558316</td>
+      <td>50.145901</td>
+      <td>48.964895</td>
+      <td>47.727650</td>
+      <td>46.827836</td>
+      <td>46.246706</td>
+      <td>45.459368</td>
+      <td>44.634539</td>
+      <td>43.566009</td>
+      <td>43.472278</td>
+      <td>43.191086</td>
+      <td>42.759925</td>
+      <td>41.878857</td>
+      <td>41.278981</td>
+      <td>40.735343</td>
+      <td>41.054027</td>
+      <td>40.454151</td>
+      <td>40.379167</td>
+      <td>39.498099</td>
+      <td>39.198160</td>
+      <td>38.542046</td>
+      <td>38.035900</td>
+      <td>36.911132</td>
+      <td>34.586612</td>
+      <td>31.699708</td>
+      <td>29.206473</td>
+      <td>26.806968</td>
+      <td>24.669909</td>
+      <td>22.439119</td>
+      <td>19.777168</td>
+      <td>18.989831</td>
+      <td>18.502432</td>
+      <td>18.090017</td>
+      <td>17.283933</td>
+      <td>16.346626</td>
+      <td>15.409320</td>
+      <td>15.034397</td>
+      <td>14.621982</td>
+      <td>14.097091</td>
+      <td>13.572199</td>
+      <td>13.216023</td>
+      <td>13.066053</td>
+      <td>12.878592</td>
+      <td>12.466177</td>
+      <td>12.259970</td>
+      <td>12.053762</td>
+      <td>11.885047</td>
+      <td>11.585109</td>
+      <td>11.097710</td>
+      <td>10.647803</td>
+      <td>10.216642</td>
+      <td>9.972942</td>
+      <td>9.879211</td>
+      <td>9.935450</td>
+      <td>10.291626</td>
+      <td>10.535326</td>
+      <td>10.854010</td>
+      <td>11.191440</td>
+      <td>10.872756</td>
+      <td>10.422849</td>
+      <td>9.766734</td>
+      <td>8.923158</td>
+      <td>8.248298</td>
+      <td>7.479706</td>
+      <td>6.729861</td>
+      <td>6.617384</td>
+      <td>6.523654</td>
     </tr>
     <tr>
       <th>SD</th>
       <td>POLYGON ((-102.78838 42.99530, -103.00588 42.9...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -18269,6 +19205,145 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
       <td>8.946143</td>
       <td>9.059181</td>
       <td>9.204515</td>
+      <td>9.575925</td>
+      <td>10.044225</td>
+      <td>10.560970</td>
+      <td>11.610608</td>
+      <td>12.627949</td>
+      <td>13.516104</td>
+      <td>14.258924</td>
+      <td>14.969448</td>
+      <td>15.938345</td>
+      <td>16.761906</td>
+      <td>17.488579</td>
+      <td>18.344437</td>
+      <td>19.248740</td>
+      <td>20.056154</td>
+      <td>21.025050</td>
+      <td>21.767871</td>
+      <td>22.542988</td>
+      <td>23.075881</td>
+      <td>23.398846</td>
+      <td>23.721812</td>
+      <td>24.141667</td>
+      <td>24.173963</td>
+      <td>24.432336</td>
+      <td>24.949080</td>
+      <td>25.578863</td>
+      <td>26.563908</td>
+      <td>27.694287</td>
+      <td>28.453256</td>
+      <td>29.292966</td>
+      <td>29.842007</td>
+      <td>30.439493</td>
+      <td>31.295351</td>
+      <td>31.779800</td>
+      <td>32.102765</td>
+      <td>32.619510</td>
+      <td>33.071661</td>
+      <td>33.620703</td>
+      <td>34.040558</td>
+      <td>34.460413</td>
+      <td>34.928713</td>
+      <td>35.752275</td>
+      <td>36.559688</td>
+      <td>37.544733</td>
+      <td>38.610519</td>
+      <td>39.789343</td>
+      <td>40.855129</td>
+      <td>42.146990</td>
+      <td>43.083590</td>
+      <td>43.955597</td>
+      <td>44.908345</td>
+      <td>45.796500</td>
+      <td>46.200207</td>
+      <td>47.572810</td>
+      <td>48.719337</td>
+      <td>49.720530</td>
+      <td>51.173874</td>
+      <td>52.788702</td>
+      <td>54.807236</td>
+      <td>57.455552</td>
+      <td>59.506383</td>
+      <td>60.475279</td>
+      <td>61.702548</td>
+      <td>62.719889</td>
+      <td>63.268930</td>
+      <td>63.381968</td>
+      <td>63.285079</td>
+      <td>62.881372</td>
+      <td>63.688785</td>
+      <td>64.124789</td>
+      <td>64.415458</td>
+      <td>64.916054</td>
+      <td>65.303613</td>
+      <td>65.658875</td>
+      <td>65.529688</td>
+      <td>65.158278</td>
+      <td>65.029092</td>
+      <td>64.948351</td>
+      <td>64.286271</td>
+      <td>63.753378</td>
+      <td>63.172041</td>
+      <td>62.736037</td>
+      <td>62.106255</td>
+      <td>61.589510</td>
+      <td>60.733652</td>
+      <td>60.297648</td>
+      <td>59.538679</td>
+      <td>58.844304</td>
+      <td>57.940000</td>
+      <td>57.455552</td>
+      <td>56.696583</td>
+      <td>55.905318</td>
+      <td>54.936422</td>
+      <td>53.951377</td>
+      <td>52.950184</td>
+      <td>52.045881</td>
+      <td>50.608685</td>
+      <td>49.236082</td>
+      <td>47.944220</td>
+      <td>46.539320</td>
+      <td>45.069828</td>
+      <td>43.503445</td>
+      <td>41.985508</td>
+      <td>40.774387</td>
+      <td>39.256450</td>
+      <td>38.045329</td>
+      <td>36.818060</td>
+      <td>35.671533</td>
+      <td>34.767230</td>
+      <td>34.153596</td>
+      <td>33.443072</td>
+      <td>33.200848</td>
+      <td>32.958623</td>
+      <td>32.845586</td>
+      <td>32.651806</td>
+      <td>32.328841</td>
+      <td>31.795948</td>
+      <td>31.327648</td>
+      <td>30.794755</td>
+      <td>29.987341</td>
+      <td>29.212224</td>
+      <td>28.808518</td>
+      <td>28.388662</td>
+      <td>27.904214</td>
+      <td>27.726583</td>
+      <td>27.452063</td>
+      <td>27.129097</td>
+      <td>26.725390</td>
+      <td>26.337832</td>
+      <td>25.708049</td>
+      <td>25.062118</td>
+      <td>24.125519</td>
+      <td>23.124326</td>
+      <td>22.316912</td>
+      <td>21.719426</td>
+      <td>20.895864</td>
+      <td>20.217637</td>
+      <td>19.442520</td>
+      <td>18.893478</td>
+      <td>18.505920</td>
     </tr>
   </tbody>
 </table>
@@ -18284,7 +19359,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span> <span class="o">=</span> <span class="n">ChoroMapBuilder</span><span class="p">(</span><span class="n">merged_df</span><span class="o">=</span><span class="n">merged_df</span><span class="p">)</span>
@@ -18304,7 +19379,7 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">ChoroMapBuilder</span><span class="o">.</span><span class="n">make_map</span><span class="p">)</span>
@@ -18329,8 +19404,8 @@ LinkedIn: <a href="https://www.linkedin.com/in/javierorman/">https://www.linkedi
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Help on function make_map in module choromap:
 
-make_map(self, title, subtitle, unit, save_name, labels=True, lang=&#39;en&#39;, video=True, fig_size=(16, 8), color=&#39;OrRd&#39;, count=&#39;all&#39;, begin_date=None, norm=&lt;class &#39;matplotlib.colors.Normalize&#39;&gt;, fps=8)
-    It calls for the whole process of creating the maps and turning them into gifs and/or videos.
+make_map(self, title, subtitle, unit, save_name, labels=True, lang=&#39;en&#39;, fig_size=(16, 8), color=&#39;OrRd&#39;, count=&#39;all&#39;, begin_date=None, norm=&lt;class &#39;matplotlib.colors.Normalize&#39;&gt;, fps=8)
+    It calls for the whole process of creating the maps and turning them into videos.
     
     Parameters:
         title : str
@@ -18344,8 +19419,6 @@ make_map(self, title, subtitle, unit, save_name, labels=True, lang=&#39;en&#39;,
         labels : bool
             If true, the make_static_maps method will insert labels in -hopefully- safe regions of the map
         lang : language code for babel.format_date, passed to pretty_date method
-        video : bool
-            If true, a video will be created. If left at default False, only a gif will be created and displayed.
         fig_size : tuple (height, width)
             Size for the figure.
         color : passes to cmap option in Pandas plot function, which in turn uses Matplotlib Colormaps. 
@@ -18375,7 +19448,7 @@ make_map(self, title, subtitle, unit, save_name, labels=True, lang=&#39;en&#39;,
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">builder</span><span class="o">.</span><span class="n">make_map</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Rate of current COVID-19 hospitalizations in each state&#39;</span><span class="p">,</span>
@@ -18399,7 +19472,7 @@ make_map(self, title, subtitle, unit, save_name, labels=True, lang=&#39;en&#39;,
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 
 
 
