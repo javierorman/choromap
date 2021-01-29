@@ -1,0 +1,1 @@
+A comprehensive description of the module and instructions for its use will appear here soon. For now, please refer to the code's docstrings.
