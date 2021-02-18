@@ -45,9 +45,9 @@ There are two DataFrames that are passed as inputs to **ChoroMap**: one with tim
 The DataFrames will be manipulated via the `DataFramePrepper()` class, which should be instantiated as follows: 
 
     prepper = DataFramePrepper(info_df, geom_df)
-<br>
 
-### 1. Time-series DataFrame  
+
+**1. Time-series DataFrame**  
 In the code, this DataFrame is `info_df`. It should be passed to `DataFramePrepper.prep_info_df()` method (description of parameters available via `help(DataFramePrepper.prep_info_df)`).
 
 It can be a *long* or *wide* DataFrame with values and dates that you'd like to visualize. In both cases, there should be:  
@@ -92,7 +92,7 @@ Notice:
 - *Dates* are now columns  
 - Values correspond to the category specificed as an argument, in this cases "`Casos activos`"
 
-### 2. Geospatial DataFrame  
+**2. Geospatial DataFrame**  
 
 In the code, this DataFrame is `geom_df`. It should be passed to `DataFramePrepper.prep_geom_df()` method, which only takes 2 parameters: the column containing *location names* and the column containing *geospatial data*.  
 
@@ -107,10 +107,9 @@ We call the `prep_geom_df()` method:
 
 The result looks like this:  
 
-<img src='static/geom_df_prepped.png' width=400>
-<br><br>
+<img src='static/geom_df_prepped.png' width=400>  
 
-### 3. Merge DataFrames  
+**3. Merge DataFrames**  
 Finally, call `DataFramePrepper.merge_info_geom()` to merge the 2 DataFrames. Typically, no arguments will be nessary.  
 The output looks like this:  
 
