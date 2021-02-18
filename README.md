@@ -7,7 +7,7 @@ ChoroMap is a tool to create **animated choropleth maps**, a.k.a. heat maps.  It
 ## 1. Install Instructions
 1. **Clone the repo from GitHub**  
 `git clone https://github.com/javierorman/choromap {folder}`  
-Replace `{folder}` with the name or path of the folder where you'd like to host the module. If left blank, the module will install the current directory.  
+Replace `{folder}` with the name or path of the folder where you'd like to host the module. If left blank, the module will install in the current directory.  
 
 ---The rest of the instructions assume that **Anaconda** is installed. If not, it's possible to re-create the same steps with **pip**.---
 
