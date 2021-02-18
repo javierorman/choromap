@@ -59,8 +59,7 @@ When using `DataFramePrepper.prep_info_df()`, make sure to  specify `long=True` 
 
 Example:
 
-<img src='static/long_df.png' width=400>
-<br><br>
+<img src='static/long_df.png' width=400>  
 
 - Here, "`Fecha`" ("Date") gets its own column  
 - In this example, "`Indicador`" ("Indicator") may contain several categories. Choose one to visualize, for example "`Casos activos`" ("Active cases")  
@@ -92,7 +91,6 @@ Notice:
 - Values correspond to the category specificed as an argument, in this cases "`Casos activos`"
 
 **2. Geospatial DataFrame**  
-
 In the code, this DataFrame is `geom_df`. It should be passed to `DataFramePrepper.prep_geom_df()` method, which only takes 2 parameters: the column containing *location names* and the column containing *geospatial data*.  
 
 Example:  
