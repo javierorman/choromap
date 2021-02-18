@@ -12,9 +12,9 @@ dependencies:
   - brotlipy=0.7.0=py39h9ed2024_1003
   - bzip2=1.0.8=hc929b4f_4
   - c-ares=1.17.1=hc929b4f_0
-  - ca-certificates=2021.1.19=hecd8cb5_0
+  - ca-certificates=2020.12.5=h033912b_0
   - cairo=1.16.0=h4ec454a_1007
-  - certifi=2020.12.5=py39hecd8cb5_0
+  - certifi=2020.12.5=py39h6e9494a_1
   - cffi=1.14.5=py39h2125817_0
   - cfitsio=3.470=h01dc385_7
   - chardet=4.0.0=py39hecd8cb5_1003
@@ -25,6 +25,8 @@ dependencies:
   - curl=7.71.1=hcb81553_8
   - cycler=0.10.0=py39hecd8cb5_0
   - decorator=4.4.2=pyhd3eb1b0_0
+  - descartes=1.1.0=py_4
+  - et_xmlfile=1.0.1=py_1001
   - expat=2.2.10=h1c7c35f_0
   - fiona=1.8.18=py39hd493767_0
   - fontconfig=2.13.1=hd23ceaa_1004
@@ -43,6 +45,7 @@ dependencies:
   - ipykernel=5.3.4=py39h01d92e1_0
   - ipython=7.20.0=py39h01d92e1_1
   - ipython_genutils=0.2.0=pyhd3eb1b0_1
+  - jdcal=1.4.1=py_0
   - jedi=0.17.2=py39hecd8cb5_1
   - jpeg=9d=hbcb3906_0
   - json-c=0.15=hcb556a6_0
@@ -88,7 +91,9 @@ dependencies:
   - ncurses=6.2=h0a44026_1
   - numpy=1.20.1=py39h3c955ea_0
   - olefile=0.46=py_0
+  - openblas=0.3.12=openmp_hd4b4ca2_1
   - openjpeg=2.4.0=h6cbf5cd_0
+  - openpyxl=3.0.6=pyhd3eb1b0_0
   - openssl=1.1.1j=hbcf498f_0
   - pandas=1.2.1=py39hb2f4e1b_0
   - parso=0.7.0=py_0
