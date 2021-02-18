@@ -1,8 +1,9 @@
 # ChoroMap
 ChoroMap is a tool to create **animated choropleth maps**, a.k.a. heat maps.  It can easily be used in a Jupyter notebook and all it takes is a *pandas DataFrame* with dates and values, as well as geographic [shapefiles]('https://desktop.arcgis.com/en/arcmap/10.3/manage-data/shapefiles/what-is-a-shapefile.htm').  
-
----
 <br>
+
+<img src='static/hosp_curr_us_100000.gif'>
+<br><br>
 
 ## 1. Install Instructions
 1. **Clone the repo from GitHub**  
