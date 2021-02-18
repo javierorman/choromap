@@ -93,7 +93,7 @@ class ChoroMapBuilder():
                     legend_kwds={'orientation': "vertical"})
 
             if labels:
-                merged_df.apply(lambda x: ax.annotate(s=x.name, xy=x.geometry.centroid.coords[0], 
+                merged_df.apply(lambda x: ax.annotate(text=x.name, xy=x.geometry.centroid.coords[0], 
                     **{"fontsize": "x-small", "ha": "center", "va": "top"}), axis=1)
             
             self.make_timeline(tax=tax, list_of_dates=list_of_dates, date=date, lang=lang)
