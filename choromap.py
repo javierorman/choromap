@@ -10,7 +10,7 @@ from babel.dates import format_date
 import os
 
 from IPython.display import Image, Video, HTML, IFrame, display
-from moviepy.editor import *
+# from moviepy.editor import *
 
 import matplotlib.pyplot as plt
 from matplotlib import colors
