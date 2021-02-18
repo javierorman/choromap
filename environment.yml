@@ -136,4 +136,3 @@ dependencies:
   - zeromq=4.3.3=hb1e8313_3
   - zlib=1.2.11=h1de35cc_3
   - zstd=1.4.8=hf387650_1
-prefix: /Users/javierorman/opt/anaconda3/envs/choromap
