@@ -85,7 +85,6 @@ Notice that dates and locations still have their own columns.
 The end-result of `DataFramePrepper.prep_info_df()` looks like this:  
 
 <img src='static/info_prepped.png' width=400>  
-<br><br>
 
 Notice:  
 - *Locations* are in the index  
