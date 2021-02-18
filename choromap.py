@@ -259,7 +259,7 @@ class DataFramePrepper():
         """
         Prepares info_df for processing:
             1. Focus on relevant information: dates, locations and category to be tracked
-            2. Pivot table so locations are indexes and dates are now columns
+            2. Pivot table so locations are on the index and dates are columns
             3. Interpolate values so there are no gaps
             4. (Optional) Roll averages with 7-day windows to smooth out highly unstable values
             5. Fill NaN with 0: applies to eariler dates since we used interpolation already.
