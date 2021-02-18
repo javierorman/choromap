@@ -2,3 +2,8 @@ __pycache__/
 .vscode/
 choromap.code-workspace
 .DS_Store
+
+/covid19_uruguay/.ipynb_checkpoints/
+/covid19_uruguay/charts
+
+/covid19_uruguay/.COVID19_Uruguay.code_workspace.icloud
