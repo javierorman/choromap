@@ -1,0 +1,1 @@
+[Haga click aquí para acceder a un render estático del notebook.](https://nbviewer.ipython.org/github/javierorman/choromap/blob/master/covid19_uruguay/covid19_uruguay.ipynb)
